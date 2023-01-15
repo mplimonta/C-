@@ -36,8 +36,7 @@ declaracao_lista : declaracao_lista declaracao
                   {
                     YYSTYPE t = $1;
                     if(t != NULL){
-                      while(t->sibling != NULL)
-                      t = t->sibling;
+                      while(t->sibling != NULL) t = t->sibling;
                       t->sibling = $2;
                       $$ = $1;
                     }
