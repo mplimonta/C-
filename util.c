@@ -46,6 +46,8 @@ void printToken( TokenType token, const char* tokenString )
     case NUM: fprintf(listing,"Num = %s\n",tokenString); break;
     case ID: fprintf(listing,"ID = %s\n",tokenString); break;
     case ERRO: fprintf(listing,"ERRO = %s\n",tokenString); break;
+    case ENDFILE: fprintf(listing,"FIM = %s\n",tokenString); break;
+
     default: /* should never happen */
       fprintf(listing,"Unknown token: %d\n",token);
   }
@@ -154,7 +156,7 @@ void printTree( TreeNode * tree ){
                 break;
 
             default:
-                fprintf(listing, "No de expressao desconhecido\n");
+                fprintf(listing, "No de Declaracao desconhecido\n");
                 break;
             }
     }
@@ -180,11 +182,11 @@ void printTree( TreeNode * tree ){
             fprintf(listing, "Tipo %s\n", tree->attr.name);
             break;
         default:
-          fprintf(listing,"Unknown ExpNode kind\n");
+          fprintf(listing,"No de expressao desconhecido.\n");
           break;
       }
     }
-    else fprintf(listing,"Unknown node kind\n");
+    else fprintf(listing,"No desconhcido.\n");
     for (i=0;i<MAXCHILDREN;i++)
          printTree(tree->child[i]);
     tree = tree->sibling;

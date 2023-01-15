@@ -44,7 +44,6 @@ declaracao_lista : declaracao_lista declaracao
                     else $$ = $2;
                   }
                  | declaracao {$$ = $1;}
-
                  ;
 declaracao : var_declaracao {$$ = $1;}
 
@@ -153,22 +152,21 @@ composto_decl : ACHAVE local_declaracoes statement_lista FCHAVE
                 } 
                 else $$ = $3;
               }
-              | ACHAVE local_declaracoes FCHAVE
+              | ACHAVE local_declaracoes FCHAVE //pois podem ser vazio
               {
                 $$ = $2;
               }
-              | ACHAVE statement_lista FCHAVE
+              | ACHAVE statement_lista FCHAVE //pois podem ser vazio
               {
                 $$ = $2;
               }
-              | ACHAVE FCHAVE {}
+              | ACHAVE FCHAVE {}            //pois podem ser vazio
               ;
 local_declaracoes : local_declaracoes var_declaracao 
                   {
                     YYSTYPE t = $1;
                     if(t != NULL){
-                      while(t->sibling != NULL)
-                      t = t->sibling;
+                      while(t->sibling != NULL) t = t->sibling;
                       t->sibling = $2;
                       $$ = $1;
                     }else $$ = $2;
@@ -390,6 +388,12 @@ ativacao : ident APAREN arg_lista FPAREN
           {
             $$ = $1;
             $$->child[0] = $3;
+            $$->nodekind = StmtK;
+            $$->kind.stmt = CallK;
+          }
+          | ident APAREN FPAREN
+          {
+            $$ = $1;
             $$->nodekind = StmtK;
             $$->kind.stmt = CallK;
           }

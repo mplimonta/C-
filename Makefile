@@ -24,6 +24,13 @@ lex.yy.o: cmc.l scan.h util.h globals.h
 	flex cmc.l
 	$(CC) -c lex.yy.c
   
+analyze.o: symtab.h globals.h analyze.h
+	$(CC) -c analyze.c
+
+symbtab.o: symtab.h
+	$(CC) -c symtab.c
+
+
 clean:
 	-rm -f CminusComp
 	-rm -f $(OBJS)

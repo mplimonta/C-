@@ -1,9 +1,7 @@
 /****************************************************/
 /* File: analyze.c                                  */
 /* Semantic analyzer implementation                 */
-/* for the TINY compiler                            */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* for the C- compiler                              */
 /****************************************************/
 
 #include "globals.h"
@@ -18,6 +16,12 @@ static int location = 0;
  * it applies preProc in preorder and postProc 
  * in postorder to tree pointed to by t
  */
+
+static void typeError(TreeNode * t, char * message)
+{ fprintf(listing,"Type error at line %d: %s\n",t->lineno,message);
+  Error = TRUE;
+}
+
 static void traverse( TreeNode * t, void (* preProc) (TreeNode *), void (* postProc) (TreeNode *) ){
   if (t != NULL){
     preProc(t);
@@ -47,16 +51,17 @@ static void insertNode( TreeNode * t)
 { switch (t->nodekind)
   { case StmtK:
       switch (t->kind.stmt)
-      { case AssignK:
-        case ReadK:
+      { case VarK:
           if (st_lookup(t->attr.name) == -1)
           /* not yet in table, so treat as new definition */
             st_insert(t->attr.name,t->lineno,location++);
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
+             typeError(t,"Erro semantico. Variavel ja foi declarada.");
           break;
+        case FunK:
+          if
         default:
           break;
       }
@@ -92,10 +97,7 @@ void buildSymtab(TreeNode * syntaxTree)
   }
 }
 
-static void typeError(TreeNode * t, char * message)
-{ fprintf(listing,"Type error at line %d: %s\n",t->lineno,message);
-  Error = TRUE;
-}
+
 
 /* Procedure checkNode performs
  * type checking at a single tree node
@@ -108,7 +110,9 @@ static void checkNode(TreeNode * t)
           if ((t->child[0]->type != IntegerK) ||
               (t->child[1]->type != IntegerK))
             typeError(t,"Op applied to non-integer");
-          if ((t->attr.op == EQ) || (t->attr.op == LT))
+          if ((t->attr.op == LET) || (t->attr.op == LT)
+           || (t->attr.op == GT) || (t->attr.op == GET) 
+           || (t->attr.op == COMP) || (t->attr.op == NEQ))
             t->type = BooleanK;
           else
             t->type = IntegerK;
@@ -130,14 +134,6 @@ static void checkNode(TreeNode * t)
         case AssignK:
           if (t->child[0]->type != IntegerK)
             typeError(t->child[0],"assignment of non-integer value");
-          break;
-        case WriteK:
-          if (t->child[0]->type != IntegerK)
-            typeError(t->child[0],"write of non-integer value");
-          break;
-        case RepeatK:
-          if (t->child[1]->type == IntegerK)
-            typeError(t->child[1],"repeat test is not Boolean");
           break;
         default:
           break;
