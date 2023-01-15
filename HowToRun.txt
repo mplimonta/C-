@@ -7,4 +7,4 @@ flex tiny.l
 bison -d tiny.y    
 gcc -c *.c
 gcc *.o -ly -lfl -o main
-
+./CminusComp YourCminusFileNameHere.cminus
