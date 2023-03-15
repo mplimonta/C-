@@ -53,7 +53,7 @@ espaco  [ \t]+
                   int linhaAux = lineno;
                   while(1){
                     c = input();
-                    if (c == EOF){
+                    if (c == 0){
                       printf("Erro Léxico na linha %d. Comentário aberto na linha %d não foi fechado!\n", lineno, linhaAux);
                       break;
                     }

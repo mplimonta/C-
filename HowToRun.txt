@@ -3,10 +3,10 @@ make
 
 or 
 
-flex tiny.l
-bison -d tiny.y    
+flex cmc.l
+bison -d cmc.y    
 gcc -c *.c
-gcc *.o -ly -lfl -o main
+gcc *.o -ly -lfl -o CminusComp
 ./CminusComp YourCminusFileNameHere.cminus
 
 ------------------------------------------

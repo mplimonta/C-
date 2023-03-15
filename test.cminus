@@ -1,5 +1,5 @@
 /* programa para ordena��o por sele��o de 
-   uma matriz com dez elementos. */
+   uma matriz com dez elementos.*/
 
 int vet[ 10 ];
 int aaisudhasd;
