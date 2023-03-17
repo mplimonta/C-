@@ -41,7 +41,7 @@
 #endif
 
 /* MAXRESERVED = the number of reserved words */
-#define MAXRESERVED 6
+#define MAXRESERVED 5
 
 /* Yacc/Bison generates its own integer values
  * for tokens
@@ -60,7 +60,7 @@ extern int lineno; /* source line number for listing */
 
 typedef enum {StmtK,ExpK} NodeKind;
 typedef enum {IfK,WhileK,AssignK,VarK,FunK,CallK, ReturnK} StmtKind;
-typedef enum {OpK,ConstK,IdK, VetK, VetidK, TypeK} ExpKind;
+typedef enum {OpK,ConstK,IdK, VetK, TypeK} ExpKind;
 
 /* ExpType is used for type checking */
 typedef enum {VoidK,IntegerK,BooleanK} ExpType;

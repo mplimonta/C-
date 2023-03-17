@@ -61,7 +61,6 @@ static void insertNode( TreeNode * t)
              typeError(t,"Erro semantico. Variavel ja foi declarada.");
           break;
         case FunK:
-          if
         default:
           break;
       }

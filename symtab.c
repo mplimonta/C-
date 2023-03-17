@@ -50,6 +50,7 @@ typedef struct BucketListRec
      LineList lines;
      int memloc ; /* memory location for variable */
      struct BucketListRec * next;
+
    } * BucketList;
 
 /* the hash table */
