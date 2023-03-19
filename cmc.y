@@ -96,7 +96,10 @@ fun_declaracao : INT ident APAREN params FPAREN composto_decl
                   $2->kind.stmt = FunK;
                 }
                ;
-params : param_lista {$$ = $1;}
+params : param_lista 
+        {
+          $$ = $1;
+        }
        | VOID
         {
 				  $$ = newExpNode(TypeK);
@@ -114,7 +117,10 @@ param_lista : param_lista VIRG param
                 $$ = $1;
               }else $$ = $3;
             }
-            | param {$$ = $1;}
+            | param 
+            {
+              $$ = $1;
+            }
             ;
 tipo_especificador : INT
                   {

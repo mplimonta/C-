@@ -22,45 +22,46 @@ static void typeError(TreeNode * t, char * message)
   Error = TRUE;
 }
 
-static void traverse( TreeNode * t, void (* preProc) (TreeNode *), void (* postProc) (TreeNode *) ){
-  if (t != NULL){
-    preProc(t);
-    { 
-      int i;
-      for (i=0; i < MAXCHILDREN; i++) traverse(t->child[i],preProc,postProc);
-    }
-    postProc(t);
-    traverse(t->sibling,preProc,postProc);
-  }
-}
 
-/* nullProc is a do-nothing procedure to 
- * generate preorder-only or postorder-only
- * traversals from traverse
- */
-static void nullProc(TreeNode * t)
-{ if (t==NULL) return;
-  else return;
-}
 
 /* Procedure insertNode inserts 
  * identifiers stored in t into 
  * the symbol table 
  */
-static void insertNode( TreeNode * t)
+static void insertNode( TreeNode * t, char ** scope )
 { switch (t->nodekind)
   { case StmtK:
       switch (t->kind.stmt)
       { case VarK:
-          if (st_lookup(t->attr.name) == -1)
+          if (st_lookup(t->attr.name, *scope, *scope) == 0)
           /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
+            st_insert(t->attr.name,t->lineno,location++, *scope, *scope);
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
              typeError(t,"Erro semantico. Variavel ja foi declarada.");
           break;
         case FunK:
+          {
+            if (st_lookup(t->attr.name, *scope, *scope) == 0)
+            /* not yet in table, so treat as new definition */
+              st_insert(t->attr.name,t->lineno,location++, *scope, *scope);
+            else
+            /* already in table, so ignore location, 
+             add line number of use only */ 
+             typeError(t,"Erro semantico. Nome ja foi declarada para uma funcao.");
+
+
+            *scope = t->attr.name;
+          }
+          break;
+        case CallK:
+                if(st_lookup(t->attr.name, *scope, "global") == 1){
+                  st_insert(t->attr.name,t->lineno,location++, *scope, "global");
+                }else{
+                  typeError(t,"Erro semantico. Funcao nao foi declarada.");
+                }
+        
         default:
           break;
       }
@@ -68,13 +69,10 @@ static void insertNode( TreeNode * t)
     case ExpK:
       switch (t->kind.exp)
       { case IdK:
-          if (st_lookup(t->attr.name) == -1)
-          /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
-          else
-          /* already in table, so ignore location, 
-             add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
+          st_insert(t->attr.name, t->lineno, location++, *scope, "global");
+          break;
+        case VetK:
+          st_insert(t->attr.name, t->lineno, location++, *scope, "global");
           break;
         default:
           break;
@@ -85,16 +83,6 @@ static void insertNode( TreeNode * t)
   }
 }
 
-/* Function buildSymtab constructs the symbol 
- * table by preorder traversal of the syntax tree
- */
-void buildSymtab(TreeNode * syntaxTree)
-{ traverse(syntaxTree,insertNode,nullProc);
-  if (TraceAnalyze)
-  { fprintf(listing,"\nSymbol table:\n\n");
-    printSymTab(listing);
-  }
-}
 
 
 
@@ -143,9 +131,43 @@ static void checkNode(TreeNode * t)
   }
 }
 
+static void traverse_insert( TreeNode * t, char *scope){
+  if (t != NULL){
+    insertNode(t, &scope);
+    { 
+      int i;
+      for (i=0; i < MAXCHILDREN; i++) traverse_insert(t->child[i], scope);
+    }
+    traverse_insert(t->sibling,scope);
+  }
+}
+
+static void traverse_check( TreeNode * t){
+  if (t != NULL){
+    { 
+      int i;
+      for (i=0; i < MAXCHILDREN; i++) traverse_check(t->child[i]);
+    }
+    checkNode(t);
+    traverse_check(t->sibling);
+  }
+}
+
 /* Procedure typeCheck performs type checking 
  * by a postorder syntax tree traversal
  */
 void typeCheck(TreeNode * syntaxTree)
-{ traverse(syntaxTree,nullProc,checkNode);
+{ traverse_check(syntaxTree);
 }
+
+/* Function buildSymtab constructs the symbol 
+ * table by preorder traversal of the syntax tree
+ */
+void buildSymtab(TreeNode * syntaxTree)
+{ traverse_insert(syntaxTree, "global");
+  if (TraceAnalyze)
+  { fprintf(listing,"\nSymbol table:\n\n");
+    printSymTab(listing);
+  }
+}
+

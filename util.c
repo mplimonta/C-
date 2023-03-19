@@ -87,6 +87,7 @@ TreeNode * newExpNode(ExpKind kind)
     t->lineno = lineno;
     t->type = VOID;
     t->attr.scope = "global";
+    t->attr.name = "semnome";
   }
   return t;
 }
