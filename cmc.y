@@ -137,13 +137,24 @@ tipo_especificador : INT
                   ;
 param : tipo_especificador ident
       {
-        $$ = $1;
+        $$ = newExpNode(TypeK);
         $$->child[0]= $2;
+        $$->type = $1->type;
+        $$->attr.name = $1->attr.name;
+        $2->nodekind = StmtK;
+        $2->kind.stmt = VarK;
+        $2->type = $1->type;
+
       }
       | tipo_especificador ident ACOLCH FCOLCH
       {
-        $$= $1;
+        $$= newExpNode(TypeK);
         $$->child[0]= $2;
+        $$->type = $1->type;
+        $$->attr.name = $1->attr.name;
+        $2->nodekind = StmtK;
+        $2->type = $1->type;
+        $2->kind.stmt = VetK;
       }
       ;
 composto_decl : ACHAVE local_declaracoes statement_lista FCHAVE

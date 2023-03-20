@@ -69,7 +69,12 @@ static void insertNode( TreeNode * t, char ** scope )
     case ExpK:
       switch (t->kind.exp)
       { case IdK:
-          st_insert(t->attr.name, t->lineno, location++, *scope, "global");
+          if(st_lookup(t->attr.name, *scope, "global") == 1){
+            st_insert(t->attr.name, t->lineno, location++, *scope, "global");
+          }else{
+            typeError(t,"Erro semantico TIPO 1. Variavel nao foi declarada.");
+          }
+          
           break;
         case VetK:
           st_insert(t->attr.name, t->lineno, location++, *scope, "global");
