@@ -274,6 +274,14 @@ expressao : var EQ expressao
             $$->child[0] = $1;
             $$->child[1] = $3;
           }
+          |
+          var EQ ativacao 
+          {
+            $$ = newStmtNode(AssignK);
+            $$->attr.name = $1->attr.name;
+            $$->child[0] = $1;
+            $$->child[1] = $3;
+          }
           | simples_expressao
           {
             $$ = $1;

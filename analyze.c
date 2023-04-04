@@ -124,6 +124,9 @@ static void checkNode(TreeNode * t)
             typeError(t->child[0],"if test is not Boolean");
           break;
         case AssignK:
+          if(t->child[1]->attr.name == "input" || t->child[1]->attr.name == "output"){
+            break;
+          }
           if (t->child[0]->type != IntegerK)
             typeError(t->child[0],"assignment of non-integer value");
           break;

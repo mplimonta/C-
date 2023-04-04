@@ -35,7 +35,6 @@ void main(void)
 {
     int i;
     i = 0;
-    b = 0;
     while (i < 10){
         vet[i] = input();
         i = i + 1;
