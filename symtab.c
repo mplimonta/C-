@@ -129,16 +129,16 @@ int st_lookup ( char * name, char* scope, char* scope_search){
  */
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"MLo Type    Name           Scope       Line Numbers\n");
-  fprintf(listing,"--- ----    -----          --------    ------------\n");
+  fprintf(listing,"MLo Type Name           Scope       Line Numbers\n");
+  fprintf(listing,"--- ---- -----          --------    ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
       while (l != NULL)
       { LineList t = l->lines;
         fprintf(listing, "%3d ", l->memloc);
-        if(l->type == IntegerK) fprintf(listing, "%-4s ", "Integer");
-        if(l->type == VoidK) fprintf(listing, "%-7s ", "Void");
+        if(l->type == IntegerK) fprintf(listing, "%-4s ", "int");
+        if(l->type == VoidK) fprintf(listing, "%-3s ", "void");
         fprintf(listing,"%-14s ",l->name);
         fprintf(listing,"%-8s  ",l->scope);
         while (t != NULL)
