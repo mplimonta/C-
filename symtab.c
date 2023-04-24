@@ -11,7 +11,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "globals.h"
 #include "symtab.h"
+
 
 /* SIZE is the size of the hash table */
 #define SIZE 211
@@ -56,6 +58,7 @@ typedef struct BucketListRec
      int memloc ; /* memory location for variable */
      struct BucketListRec * next;
      char* scope;
+     ExpType type;
 
    } * BucketList;
 
@@ -67,7 +70,7 @@ static BucketList hashTable[SIZE];
  * loc = memory location is inserted only the
  * first time, otherwise ignored
  */
-void st_insert( char * name, int lineno, int loc, char* scope, char* scope_search){
+void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, char* scope_search){
   int h = hash(name, scope);
   BucketList l =  hashTable[h];
 
@@ -88,6 +91,7 @@ void st_insert( char * name, int lineno, int loc, char* scope, char* scope_searc
     new->memloc = loc;
     new->scope = scope;
     new->lines->next = NULL;
+    new->type = type;
     new->next = hashTable[h];
     hashTable[h] = new; }
   else /* found in table, so just add line number */
@@ -125,13 +129,16 @@ int st_lookup ( char * name, char* scope, char* scope_search){
  */
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"Variable Name   Scope     Line Numbers\n");
-  fprintf(listing,"-------------  --------   ------------\n");
+  fprintf(listing,"MLo Type    Name           Scope       Line Numbers\n");
+  fprintf(listing,"--- ----    -----          --------    ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
       while (l != NULL)
       { LineList t = l->lines;
+        fprintf(listing, "%3d ", l->memloc);
+        if(l->type == IntegerK) fprintf(listing, "%-4s ", "Integer");
+        if(l->type == VoidK) fprintf(listing, "%-7s ", "Void");
         fprintf(listing,"%-14s ",l->name);
         fprintf(listing,"%-8s  ",l->scope);
         while (t != NULL)

@@ -35,29 +35,29 @@ static void insertNode( TreeNode * t, char ** scope )
       { case VarK:
           if (st_lookup(t->attr.name, *scope, *scope) == 0)
           /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++, *scope, *scope);
+            st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-             typeError(t,"Erro semantico. Variavel ja foi declarada.");
+             typeError(t,"Erro semantico. Variavel ou funcao ja foi declarada.");
           break;
         case FunK:
           {
             if (st_lookup(t->attr.name, *scope, *scope) == 0)
             /* not yet in table, so treat as new definition */
-              st_insert(t->attr.name,t->lineno,location++, *scope, *scope);
+              st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
             else
             /* already in table, so ignore location, 
              add line number of use only */ 
              typeError(t,"Erro semantico. Nome ja foi declarada para uma funcao.");
 
-
+            //DEFINIE ESCOPO
             *scope = t->attr.name;
           }
           break;
         case CallK:
                 if(st_lookup(t->attr.name, *scope, "global") == 1){
-                  st_insert(t->attr.name,t->lineno,location++, *scope, "global");
+                  st_insert(t->attr.name,t->lineno,location++, t->type, *scope, "global");
                 }else{
                   typeError(t,"Erro semantico. Funcao nao foi declarada.");
                 }
@@ -70,14 +70,13 @@ static void insertNode( TreeNode * t, char ** scope )
       switch (t->kind.exp)
       { case IdK:
           if(st_lookup(t->attr.name, *scope, "global") == 1){
-            st_insert(t->attr.name, t->lineno, location++, *scope, "global");
+            st_insert(t->attr.name, t->lineno, location++, t->type, *scope, "global");
           }else{
             typeError(t,"Erro semantico TIPO 1. Variavel nao foi declarada.");
           }
-          
           break;
         case VetK:
-          st_insert(t->attr.name, t->lineno, location++, *scope, "global");
+          st_insert(t->attr.name, t->lineno, location++, t->type, *scope, "global");
           break;
         default:
           break;

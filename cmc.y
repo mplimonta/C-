@@ -70,6 +70,27 @@ var_declaracao : INT ident PV
                   $2->type = IntegerK; 
                   $2->attr.len = $4->attr.val;
                 }
+                | VOID ident PV 
+                {
+                  $$ = newExpNode(TypeK);
+                  $$->type = VoidK;
+                  $$->attr.name = "void";
+                  $$->child[0] = $2;
+                  $2->nodekind = StmtK;
+                  $2->kind.stmt = VarK;
+                  $2->type = VoidK;
+                }
+                | VOID ident ACOLCH num FCOLCH PV
+                {
+                  $$ = newExpNode(TypeK);
+                  $$->type = VoidK;
+                  $$->attr.name = "void";
+                  $$->child[0] = $2;
+                  $2->nodekind = StmtK;
+                  $2->kind.stmt = VarK;
+                  $2->type = VoidK; 
+                  $2->attr.len = $4->attr.val;
+                }
                 ;
 fun_declaracao : INT ident APAREN params FPAREN composto_decl
                 {
@@ -94,6 +115,7 @@ fun_declaracao : INT ident APAREN params FPAREN composto_decl
                   $2->child[1] = $6;
                   $2->nodekind = StmtK;
                   $2->kind.stmt = FunK;
+                  $2->type = VoidK;
                 }
                ;
 params : param_lista 
