@@ -1,15 +1,6 @@
 void main(void){
+    int vetor[5];
     int b;
-    int i;
-    int x;
-    int k;
-    int a[1];
-
-    if (a[i] < x){
-            x = a[i];
-            k = i;
-        }else{
-            i = 1;
-    }
-    a = 23;
+    b = input();
+    output();
 }

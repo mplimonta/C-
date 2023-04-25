@@ -56,12 +56,15 @@ static void insertNode( TreeNode * t, char ** scope )
           }
           break;
         case CallK:
-                if(st_lookup(t->attr.name, *scope, "global") == 1){
+                if(!strcmp(t->attr.name, "output") || !strcmp(t->attr.name, "input")){
+                  ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
+                  st_insert(t->attr.name, t->lineno, location++, type, "global", "global");
+                }else if(st_lookup(t->attr.name, *scope, "global") == 1){
                   st_insert(t->attr.name,t->lineno,location++, t->type, *scope, "global");
                 }else{
                   typeError(t,"Erro semantico. Funcao nao foi declarada.");
                 }
-        
+          break;
         default:
           break;
       }

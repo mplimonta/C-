@@ -33,7 +33,6 @@ void sort( int a[], int low, int high)
         i = i + 1;
     }
 }
-int sort;
 int main(void)
 {
     int i;
