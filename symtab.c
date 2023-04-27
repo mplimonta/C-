@@ -122,6 +122,13 @@ int st_lookup ( char * name, char* scope, char* scope_search){
   }else return 1;
   return 1;
 }
+ExpType st_lookup_type(char * name){
+  int h = hash(name, "global");
+  BucketList l =  hashTable[h];
+  while ((l != NULL) && (strcmp(name,l->name) != 0))
+    l = l->next;
+  return l->type;
+}
 
 /* Procedure printSymTab prints a formatted 
  * listing of the symbol table contents 

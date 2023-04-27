@@ -10,6 +10,7 @@
 
 /* counter for variable memory locations */
 static int location = 0;
+int main_presence = 0;
 
 /* Procedure traverse is a generic recursive 
  * syntax tree traversal routine:
@@ -33,6 +34,9 @@ static void insertNode( TreeNode * t, char ** scope )
   { case StmtK:
       switch (t->kind.stmt)
       { case VarK:
+          if(t->type == VoidK){
+            typeError(t,"Erro semantico. Variaveis do tipo void nao sao permitidas.");
+          }
           if (st_lookup(t->attr.name, *scope, *scope) == 0)
           /* not yet in table, so treat as new definition */
             st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
@@ -43,13 +47,14 @@ static void insertNode( TreeNode * t, char ** scope )
           break;
         case FunK:
           {
-            if (st_lookup(t->attr.name, *scope, *scope) == 0)
-            /* not yet in table, so treat as new definition */
+            if (st_lookup(t->attr.name, *scope, *scope) == 0){
               st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
-            else
-            /* already in table, so ignore location, 
-             add line number of use only */ 
-             typeError(t,"Erro semantico. Nome ja foi declarada para uma funcao.");
+              if(strcmp(t->attr.name,"main") == 0){
+                main_presence = 1;
+              }
+            }else{
+             typeError(t,"Erro semantico. Nome ja foi declarada.");
+            }
 
             //DEFINIE ESCOPO
             *scope = t->attr.name;
@@ -129,9 +134,9 @@ static void checkNode(TreeNode * t)
           if(t->child[1]->attr.name == "input" || t->child[1]->attr.name == "output"){
             break;
           }
-          if (t->child[0]->type != IntegerK)
-            typeError(t->child[0],"assignment of non-integer value");
-          break;
+          if((st_lookup(t->child[1]->attr.name, "global", "global")) && (st_lookup_type(t->child[1]->attr.name) == VoidK)){
+            typeError(t->child[1],"Erro semantico. ASSIGN INVALIDO, funcao eh do tipo void");
+          }
         default:
           break;
       }
@@ -153,6 +158,10 @@ static void traverse_insert( TreeNode * t, char *scope){
 }
 
 static void traverse_check( TreeNode * t){
+  if(main_presence == 0){
+    typeError(t,"Erro semantico, funcao main nao existe");
+    return;
+  }
   if (t != NULL){
     { 
       int i;
@@ -166,8 +175,8 @@ static void traverse_check( TreeNode * t){
 /* Procedure typeCheck performs type checking 
  * by a postorder syntax tree traversal
  */
-void typeCheck(TreeNode * syntaxTree)
-{ traverse_check(syntaxTree);
+void typeCheck(TreeNode * syntaxTree){
+  traverse_check(syntaxTree);
 }
 
 /* Function buildSymtab constructs the symbol 

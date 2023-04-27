@@ -21,6 +21,8 @@ void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, cha
  */
 int st_lookup ( char * name, char* scope, char* scope_search);
 
+ExpType st_lookup_type(char * name);
+
 /* Procedure printSymTab prints a formatted 
  * listing of the symbol table contents 
  * to the listing file
