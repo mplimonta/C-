@@ -13,7 +13,7 @@
 /* set NO_CODE to TRUE to get a compiler that does not
  * generate code
  */
-#define NO_CODE TRUE
+#define NO_CODE FALSE
 
 #include "util.h"
 #if NO_PARSE
@@ -35,10 +35,10 @@ FILE * listing;
 FILE * code;
 
 /* allocate and set tracing flags */
-int EchoSource = TRUE;
-int TraceScan = TRUE;
-int TraceParse = TRUE;
-int TraceAnalyze = TRUE;
+int EchoSource = FALSE;
+int TraceScan = FALSE;
+int TraceParse = FALSE;
+int TraceAnalyze = FALSE;
 int TraceCode = TRUE;
 
 int Error = FALSE;
@@ -88,7 +88,7 @@ int main( int argc, char * argv[] )
     { printf("Unable to open %s\n",codefile);
       exit(1);
     }
-    codeGen(syntaxTree,codefile);
+    codeGen(syntaxTree);
     fclose(code);
   }
 #endif

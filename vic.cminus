@@ -1,9 +1,4 @@
-int meme(void){
-    return 5;
-}
-
 void main(void){
     int b;
-    b = meme();
-    output();
+    b = 2 + 2;
 }

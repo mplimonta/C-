@@ -87,9 +87,8 @@ void emitRestore(void)
  * a = the absolute location in memory
  * c = a comment to be printed if TraceCode is TRUE
  */
-void emitRM_Abs( char *op, int r, int a, char * c)
-{ fprintf(code,"%3d:  %5s  %d,%d(%d) ",
-               emitLoc,op,r,a-(emitLoc+1),pc);
+void emitRM_Abs( char *op, int r, int a, char * c){
+  fprintf(code,"%3d:  %5s  %d,%d(%d) ", emitLoc,op,r,a-(emitLoc+1),pc);
   ++emitLoc ;
   if (TraceCode) fprintf(code,"\t%s",c) ;
   fprintf(code,"\n") ;
