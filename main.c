@@ -38,7 +38,7 @@ FILE * code;
 int EchoSource = FALSE;
 int TraceScan = FALSE;
 int TraceParse = FALSE;
-int TraceAnalyze = FALSE;
+int TraceAnalyze = TRUE;
 int TraceCode = TRUE;
 
 int Error = FALSE;

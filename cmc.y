@@ -98,12 +98,14 @@ fun_declaracao : INT ident APAREN params FPAREN composto_decl
                   $$->type = IntegerK;
                   $$->attr.name = "inteiro";
                   $$->child[0] = $2;
+
                   $2->child[0] = $4;
                   $2->child[1] = $6;
                   $2->nodekind = StmtK;
                   $2->kind.stmt = FunK;
                   $2->type = IntegerK;
                   $4->type = IntegerK;
+
                 }
                 | VOID ident APAREN params FPAREN composto_decl
                 {

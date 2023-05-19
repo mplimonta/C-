@@ -1,14 +1,5 @@
 make
 ./CminusComp YourCminusFileNameHere.cminus
-
-or 
-
-flex cmc.l
-bison -d cmc.y    
-gcc -c *.c
-gcc *.o -ly -lfl -o CminusComp
-./CminusComp YourCminusFileNameHere.cminus
-
 ------------------------------------------
 To clean generated files use:
 make clean

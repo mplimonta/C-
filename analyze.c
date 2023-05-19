@@ -37,9 +37,11 @@ static void insertNode( TreeNode * t, char ** scope )
           if(t->type == VoidK){
             typeError(t,"Erro semantico. Variaveis do tipo void nao sao permitidas.");
           }
-          if (st_lookup(t->attr.name, *scope, *scope) == 0)
-          /* not yet in table, so treat as new definition */
+          if (st_lookup(t->attr.name, *scope, *scope) == 0){
+            /* not yet in table, so treat as new definition */
+            t->attr.scope = *scope;
             st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
+          }
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
