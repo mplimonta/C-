@@ -68,6 +68,7 @@ static void genStmt(TreeNode * tree){
 
         break;
       case AssignK:{
+        if(tree->child[1]->kind.exp == ConstK) fprintf(code, "MOVE, $t%d,", indexCounter());
         cGen(tree->child[1], -1);
         fprintf(code, "STORE, %s, $t%d -\n", tree->child[0]->attr.name, count);
         break;
@@ -86,7 +87,7 @@ static void genExp( TreeNode * tree){
       break;
 
     case ConstK :
-
+      fprintf(code, " %d\n", tree->attr.val);
       break; /* ConstK */
 
     case IdK :
@@ -115,7 +116,7 @@ static void cGen(TreeNode * tree, StmtKind type){
       default:
         break;
     }
-    if(type == CallK) fprintf(code, "PARAM, $t, -, -%d\n", count);
+    if(type == CallK) fprintf(code, "PARAM, $t%d, -, -\n", count);
     if(type == FunK)
       fprintf(code, "ARG, %s, %s, %s\n", tree->attr.name, tree->child[0]->attr.name, tree->attr.scope);
     cGen(tree->sibling, type);
