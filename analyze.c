@@ -18,8 +18,9 @@ int main_presence = 0;
  * in postorder to tree pointed to by t
  */
 
-static void typeError(TreeNode * t, char * message)
-{ fprintf(listing,"Type error at line %d: %s\n",t->lineno,message);
+static void typeError(TreeNode * t, char * message){
+  fprintf(listing,"Type error at line %d: %s\n",t->lineno,message);
+
   Error = TRUE;
 }
 
@@ -186,8 +187,8 @@ void typeCheck(TreeNode * syntaxTree){
  */
 void buildSymtab(TreeNode * syntaxTree)
 { traverse_insert(syntaxTree, "global");
-  if (TraceAnalyze)
-  { fprintf(listing,"\nSymbol table:\n\n");
+  if (TraceAnalyze && !Error){
+    fprintf(listing,"\nSymbol table:\n\n");
     printSymTab(listing);
   }
 }

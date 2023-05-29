@@ -63,20 +63,31 @@ static int paramCounter(TreeNode * tree){
 
 /* Procedure genStmt generates code at a statement node */
 static void genStmt(TreeNode * tree){
-  int reg1, reg2, labelif, labelelse;
+  int reg1, reg2, labelfalse, labelend, labelloop;
   switch (tree->kind.stmt) {
       case IfK :
         cGen(tree->child[0], -1);
-        labelif = label;
-        labelelse = label + 1;        
+        labelfalse = label;
+        labelend = label + 1;        
         label += 2;
-        fprintf(code, "(IFF, $t%d, L%d -)\n", count, labelif);
+        fprintf(code, "(IFF, $t%d, L%d -)\n", count, labelfalse);
         cGen(tree->child[1], -1); 
-        fprintf(code, "(GOTO, L%d, -, -)\n", labelelse);
-        fprintf(code, "(LAB, L%d, -, -)\n", labelif);
+        fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
+        fprintf(code, "(LAB, L%d, -, -)\n", labelfalse);
         cGen(tree->child[2], -1); 
-        fprintf(code, "(GOTO, L%d, -, -)\n", labelelse);
-        fprintf(code, "(LAB, L%d, -, -)\n", labelelse);
+        fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
+        fprintf(code, "(LAB, L%d, -, -)\n", labelend);
+        break;
+      case WhileK:
+        labelloop = label;
+        fprintf(code, "(LAB, L%d, -, -)\n", labelloop);
+        cGen(tree->child[0], -1);
+        labelend = label + 1;        
+        label += 2;
+        fprintf(code, "(WHILE, $t%d, L%d -)\n", count, labelend);
+        cGen(tree->child[1], -1); 
+        fprintf(code, "(GOTO, L%d, -, -)\n", labelloop);
+        fprintf(code, "(LAB, L%d, -, -)\n", labelend);
         break;
       case ReturnK:
         cGen(tree->child[0], -1);
@@ -105,10 +116,9 @@ static void genStmt(TreeNode * tree){
         break;
       case AssignK:{
         cGen(tree->child[0], -1);
-        reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg1);
+        fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg2);
         break;
       }
       default:
