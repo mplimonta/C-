@@ -472,7 +472,7 @@ num : NUM
         $$ = newExpNode(ConstK);
         $$->attr.val = atoi(tokenString);
         $$->type = IntegerK;
-      }
+      } 
 ;
 
 %%
