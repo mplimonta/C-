@@ -16,6 +16,11 @@ void main(void){
 	output(gcd(x,y));
 }
 
+void blha(void){
+    int x;
+    x = 5;
+}
+
 
 
 /*
