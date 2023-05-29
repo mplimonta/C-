@@ -108,7 +108,7 @@ static void genStmt(TreeNode * tree){
         reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        printf("(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg1);
+        fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg1);
         break;
       }
       default:
