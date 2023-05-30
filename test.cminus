@@ -1,4 +1,4 @@
 void main(void){
-    int x[10];
-    x[2] = 5;
+    int x;
+    x = 5;
 }

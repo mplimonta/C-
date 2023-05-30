@@ -116,9 +116,12 @@ static void genStmt(TreeNode * tree){
         break;
       case AssignK:{
         cGen(tree->child[0], -1);
+        reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg2);
+        if(tree->child[0]->kind.exp == VetK)
+        fprintf(code, "(STORE, %s($t%d), t%d, -)\n", tree->child[0]->attr.name, reg1, reg2);
+        else fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg1);
         break;
       }
       default:
@@ -144,7 +147,6 @@ static void genExp( TreeNode * tree){
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break; /* IdK */
     case VetK :
-      fprintf(code, "ARRAY\n");
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       cGen(tree->child[0], -1);
       reg1 = count;
@@ -152,7 +154,6 @@ static void genExp( TreeNode * tree){
       reg2 = count;
       //fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
 
-      fprintf(code, "FIM ARRAY\n");
       //, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break;
 
