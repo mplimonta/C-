@@ -121,7 +121,7 @@ static void genStmt(TreeNode * tree){
         reg2 = count;
         if(tree->child[0]->kind.exp == VetK)
         fprintf(code, "(STORE, %s($t%d), t%d, -)\n", tree->child[0]->attr.name, reg1, reg2);
-        else fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg1);
+        else fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg2);
         break;
       }
       default:

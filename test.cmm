@@ -3,5 +3,5 @@
 (ALLOC, x, main -)
 (LOAD, $t0, x, -)
 (LOAD, $t1, 5, -)
-(STORE, x, t0, -)
+(STORE, x, t1, -)
 (END, main, -, -)
