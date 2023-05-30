@@ -144,7 +144,16 @@ static void genExp( TreeNode * tree){
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break; /* IdK */
     case VetK :
+      fprintf(code, "ARRAY\n");
+      fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
+      cGen(tree->child[0], -1);
+      reg1 = count;
+      fprintf(code, "(MULT, $t%d, $t%d, 4)\n", indexCounter(), reg1);
+      reg2 = count;
+      //fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
 
+      fprintf(code, "FIM ARRAY\n");
+      //, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break;
 
     case OpK :

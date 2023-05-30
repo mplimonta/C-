@@ -66,7 +66,7 @@ var_declaracao : INT ident PV
                   $$->attr.name = "inteiro";
                   $$->child[0] = $2;
                   $2->nodekind = StmtK;
-                  $2->kind.stmt = VarK;
+                  $2->kind.stmt = VetK;
                   $2->type = IntegerK; 
                   $2->attr.len = $4->attr.val;
                 }
