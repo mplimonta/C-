@@ -115,13 +115,20 @@ static void genStmt(TreeNode * tree){
 
         break;
       case AssignK:{
-        cGen(tree->child[0], -1);
+        if(tree->child[0]->kind.exp == VetK)cGen(tree->child[0], -1);
         reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
+        if(tree->child[1]->kind.exp == VetK) fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, reg2);
         if(tree->child[0]->kind.exp == VetK)
-        fprintf(code, "(STORE, %s($t%d), t%d, -)\n", tree->child[0]->attr.name, reg1, reg2);
-        else fprintf(code, "(STORE, %s, t%d, -)\n", tree->child[0]->attr.name, reg2);
+        fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, reg1);
+        else fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
+
+        if(tree->child[1]->kind.exp == VetK){
+          fprintf(code, ", $t%d, -)\n", count);
+
+        }
+        else fprintf(code, ", t%d, -)\n", reg2);
         break;
       }
       default:
@@ -147,12 +154,12 @@ static void genExp( TreeNode * tree){
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break; /* IdK */
     case VetK :
-      fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
+      //fprintf(code, "(LOADVET, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       cGen(tree->child[0], -1);
       reg1 = count;
       fprintf(code, "(MULT, $t%d, $t%d, 4)\n", indexCounter(), reg1);
       reg2 = count;
-      //fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
+      //fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->attr.name, reg2);
 
       //, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break;
@@ -202,4 +209,6 @@ static void cGen(TreeNode * tree, StmtKind type){
 
 void codeGen(TreeNode * syntaxTree){
     cGen(syntaxTree, -1);
+    
+
 }
