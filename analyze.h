@@ -1,8 +1,6 @@
 /****************************************************/
 /* File: analyze.h                                  */
-/* Semantic analyzer interface for TINY compiler    */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* Semantic analyzer interface for C- compiler      */
 /****************************************************/
 
 #ifndef _ANALYZE_H_

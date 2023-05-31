@@ -1,7 +1,7 @@
 /****************************************************/
 /* File: cgen.c                                     */
 /* The code generator implementation                */
-/* for the C- compiler                            */
+/* for the C- compiler                              */
 /****************************************************/
 
 #include "globals.h"

@@ -1,7 +1,7 @@
 /****************************************************/
 /* File: util.c                                     */
 /* Utility function implementation                  */
-/* for the C- compiler                            */
+/* for the C- compiler                              */
 /****************************************************/
 
 #include "globals.h"

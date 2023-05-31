@@ -1,6 +1,6 @@
 /****************************************************/
-/* File: cmc.y                                     */
-/* The C- Yacc/Bison specification file           */
+/* File: cmc.y                                      */
+/* The C- Yacc/Bison specification file             */
 /****************************************************/
 %{
 #define YYPARSER /* distinguishes Yacc output from other code files */
