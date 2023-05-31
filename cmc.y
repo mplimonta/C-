@@ -1,8 +1,6 @@
 /****************************************************/
-/* File: tiny.y                                     */
-/* The TINY Yacc/Bison specification file           */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* File: cmc.y                                     */
+/* The C- Yacc/Bison specification file           */
 /****************************************************/
 %{
 #define YYPARSER /* distinguishes Yacc output from other code files */

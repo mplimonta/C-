@@ -1,11 +1,6 @@
 /****************************************************/
 /* File: symtab.c                                   */
-/* Symbol table implementation for the TINY compiler*/
-/* (allows only one symbol table)                   */
-/* Symbol table is implemented as a chained         */
-/* hash table                                       */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* Symbol table implementation for the C- compiler  */
 /****************************************************/
 
 #include <stdio.h>

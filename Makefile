@@ -5,12 +5,12 @@ FLEX = flex
 
 CC = gcc
 
-OBJS = cmc.tab.o lex.yy.o main.o util.o analyze.o symtab.o cgen.o code.o
+OBJS = cmc.tab.o lex.yy.o main.o util.o analyze.o symtab.o cgen.o
 
 all: Compilador clean
 
 Compilador:$(OBJS)
-	@echo "9"
+	@echo "8"
 	$(CC) $(OBJS) -lfl -o CminusComp
 
 main.o: main.c globals.h util.h scan.h
@@ -31,19 +31,16 @@ lex.yy.o: cmc.l scan.h util.h globals.h
 	flex cmc.l
 	$(CC) -c lex.yy.c
   
-analyze.o: symtab.h globals.h analyze.h symtab.o
+analyze.o: symtab.o symtab.h globals.h analyze.h 
 	@echo "6"
 	$(CC) -c analyze.c
 
 symbtab.o: symtab.h
 	@echo "5"
 	$(CC) -c symtab.c
-code.o : analyze.o 
-	@echo "7"
-	$(CC) -c code.c
 	
-cgen.o : code.o 
-	@echo "8"
+cgen.o :
+	@echo "7"
 	$(CC) -c cgen.c
 
 clean:

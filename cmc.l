@@ -1,8 +1,6 @@
 /****************************************************/
-/* File: tiny.l                                     */
-/* Lex specification for TINY                       */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* File: cmc.l                                      */
+/* Lexical analyzer for C-                          */
 /****************************************************/
 %option noyywrap
 %{

@@ -1,15 +1,11 @@
 /****************************************************/
 /* File: cgen.c                                     */
 /* The code generator implementation                */
-/* for the TINY compiler                            */
-/* (generates code for the TM machine)              */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
+/* for the C- compiler                            */
 /****************************************************/
 
 #include "globals.h"
 #include "symtab.h"
-#include "code.h"
 #include "cgen.h"
 
 /* tmpOffset is the memory offset for temps
