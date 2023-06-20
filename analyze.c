@@ -8,15 +8,8 @@
 #include "symtab.h"
 #include "analyze.h"
 
-/* counter for variable memory locations */
 static int location = 0;
 int main_presence = 0;
-
-/* Procedure traverse is a generic recursive 
- * syntax tree traversal routine:
- * it applies preProc in preorder and postProc 
- * in postorder to tree pointed to by t
- */
 
 static void typeError(TreeNode * t, char * message){
   fprintf(listing,"Type error at line %d: %s\n",t->lineno,message);
@@ -24,12 +17,6 @@ static void typeError(TreeNode * t, char * message){
   Error = TRUE;
 }
 
-
-
-/* Procedure insertNode inserts 
- * identifiers stored in t into 
- * the symbol table 
- */
 static void insertNode( TreeNode * t, char ** scope )
 { switch (t->nodekind)
   { case StmtK:
@@ -39,9 +26,16 @@ static void insertNode( TreeNode * t, char ** scope )
             typeError(t,"Erro semantico. Variaveis do tipo void nao sao permitidas.");
           }
           if (st_lookup(t->attr.name, *scope, *scope) == 0){
-            /* not yet in table, so treat as new definition */
-            t->attr.scope = *scope;
-            st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
+            if(t->attr.len > 0){
+              t->attr.scope = *scope;
+              st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
+              location += t->attr.len - 1;
+            }else{
+              /* not yet in table, so treat as new definition */
+              t->attr.scope = *scope;
+              st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
+            }
+            
           }
           else
           /* already in table, so ignore location, 
@@ -51,7 +45,7 @@ static void insertNode( TreeNode * t, char ** scope )
         case FunK:
           {
             if (st_lookup(t->attr.name, *scope, *scope) == 0){
-              st_insert(t->attr.name,t->lineno,location++, t->type, *scope, *scope);
+              st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
               if(strcmp(t->attr.name,"main") == 0){
                 main_presence = 1;
               }
@@ -65,10 +59,15 @@ static void insertNode( TreeNode * t, char ** scope )
           break;
         case CallK:
                 if(!strcmp(t->attr.name, "output") || !strcmp(t->attr.name, "input")){
-                  ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
-                  st_insert(t->attr.name, t->lineno, location++, type, "global", "global");
+                  if(st_lookup(t->attr.name, *scope, "global") == 0){
+                    ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
+                    st_insert(t->attr.name, t->lineno, location++, type, "global", "global", t->attr.len);
+                  }else{
+                    ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
+                    st_insert(t->attr.name, t->lineno, -1, type, "global", "global", t->attr.len);
+                  }
                 }else if(st_lookup(t->attr.name, *scope, "global") == 1){
-                  st_insert(t->attr.name,t->lineno,location++, t->type, *scope, "global");
+                  st_insert(t->attr.name,t->lineno, -1, t->type, *scope, "global", t->attr.len);
                 }else{
                   typeError(t,"Erro semantico. Funcao nao foi declarada.");
                 }
@@ -81,13 +80,13 @@ static void insertNode( TreeNode * t, char ** scope )
       switch (t->kind.exp)
       { case IdK:
           if(st_lookup(t->attr.name, *scope, "global") == 1){
-            st_insert(t->attr.name, t->lineno, location++, t->type, *scope, "global");
+            st_insert(t->attr.name, t->lineno, -1, t->type, *scope, "global", t->attr.len);
           }else{
             typeError(t,"Erro semantico TIPO 1. Variavel nao foi declarada.");
           }
           break;
         case VetK:
-          st_insert(t->attr.name, t->lineno, location++, t->type, *scope, "global");
+          st_insert(t->attr.name, t->lineno, -1, t->type, *scope, "global", t->attr.len);
           break;
         default:
           break;
@@ -98,12 +97,6 @@ static void insertNode( TreeNode * t, char ** scope )
   }
 }
 
-
-
-
-/* Procedure checkNode performs
- * type checking at a single tree node
- */
 static void checkNode(TreeNode * t)
 { switch (t->nodekind)
   { case ExpK:
@@ -175,16 +168,9 @@ static void traverse_check( TreeNode * t){
   }
 }
 
-/* Procedure typeCheck performs type checking 
- * by a postorder syntax tree traversal
- */
 void typeCheck(TreeNode * syntaxTree){
   traverse_check(syntaxTree);
 }
-
-/* Function buildSymtab constructs the symbol 
- * table by preorder traversal of the syntax tree
- */
 void buildSymtab(TreeNode * syntaxTree)
 { traverse_insert(syntaxTree, "global");
   if (TraceAnalyze && !Error){

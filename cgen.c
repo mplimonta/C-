@@ -8,13 +8,8 @@
 #include "symtab.h"
 #include "cgen.h"
 
-/* tmpOffset is the memory offset for temps
-  It is decremented each time a temp is
-  stored, and incremeted when loaded again
-*/
 static int tmpOffset = 0;
 
-/* prototype for internal recursive code generator */
 static void cGen (TreeNode * tree, StmtKind type);
 
 int count = -1;
@@ -33,7 +28,7 @@ static void printOp( TokenType token, const char* tokenString )
     case COMP: fprintf(code,"COMP"); break;
     case NEQ: fprintf(code,"NEQ"); break;
     case EQ: fprintf(code,"EQ"); break;
-    default: /* should never happen */
+    default:
       fprintf(code,"Unknown token: %d",token);
   }
 }
@@ -57,7 +52,6 @@ static int paramCounter(TreeNode * tree){
   return counter;
 }
 
-/* Procedure genStmt generates code at a statement node */
 static void genStmt(TreeNode * tree){
   int reg1, reg2, labelfalse, labelend, labelloop;
   switch (tree->kind.stmt) {

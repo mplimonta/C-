@@ -10,14 +10,10 @@
 #include "symtab.h"
 
 
-/* SIZE is the size of the hash table */
 #define SIZE 211
 
-/* SHIFT is the power of two used as multiplier
-   in hash function  */
 #define SHIFT 4
 
-/* the hash function */
 static int hash (char* name, char * scope)
 { int temp = 0;
   int i = 0;
@@ -33,39 +29,29 @@ static int hash (char* name, char * scope)
   return temp;
 }
 
-/* the list of line numbers of the source 
- * code in which a variable is referenced
- */
+
 typedef struct LineListRec
    { int lineno;
      struct LineListRec * next;
    } * LineList;
 
-/* The record in the bucket lists for
- * each variable, including name, 
- * assigned memory location, and
- * the list of line numbers in which
- * it appears in the source code
- */
+
 typedef struct BucketListRec
    { char * name;
      LineList lines;
-     int memloc ; /* memory location for variable */
+     int memloc;
      struct BucketListRec * next;
      char* scope;
+     int len;
      ExpType type;
 
    } * BucketList;
 
-/* the hash table */
+
 static BucketList hashTable[SIZE];
 
-/* Procedure st_insert inserts line numbers and
- * memory locations into the symbol table
- * loc = memory location is inserted only the
- * first time, otherwise ignored
- */
-void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, char* scope_search){
+
+void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, char* scope_search, int len){
   int h = hash(name, scope);
   BucketList l =  hashTable[h];
 
@@ -85,6 +71,7 @@ void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, cha
     new->lines->lineno = lineno;
     new->memloc = loc;
     new->scope = scope;
+    new->len = len;
     new->lines->next = NULL;
     new->type = type;
     new->next = hashTable[h];
@@ -96,11 +83,8 @@ void st_insert( char * name, int lineno, int loc, ExpType type, char* scope, cha
     t->next->lineno = lineno;
     t->next->next = NULL;
   }
-} /* st_insert */
+} 
 
-/* Function st_lookup returns the memory 
- * location of a variable or -1 if not found
- */
 int st_lookup ( char * name, char* scope, char* scope_search){ 
   int h = hash(name, scope);
   BucketList l =  hashTable[h];
@@ -125,26 +109,23 @@ ExpType st_lookup_type(char * name){
   return l->type;
 }
 
-/* Procedure printSymTab prints a formatted 
- * listing of the symbol table contents 
- * to the listing file
- */
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"MLo Type Name           Scope       Line Numbers\n");
-  fprintf(listing,"--- ---- -----          --------    ------------\n");
+  fprintf(listing,"MLo  Type Lenght  Name         Scope       Line Numbers\n");
+  fprintf(listing,"---- ---- ------  ------       --------    ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
       while (l != NULL)
       { LineList t = l->lines;
-        fprintf(listing, "%3d ", l->memloc);
+        fprintf(listing, "%4d ", l->memloc);
         if(l->type == IntegerK) fprintf(listing, "%-4s ", "int");
         if(l->type == VoidK) fprintf(listing, "%-3s ", "void");
-        fprintf(listing,"%-14s ",l->name);
-        fprintf(listing,"%-8s  ",l->scope);
+        fprintf(listing,"%-7d ",l->len);
+        fprintf(listing,"%-12s ",l->name);
+        fprintf(listing,"%-10s  ",l->scope);
         while (t != NULL)
-        { fprintf(listing,"%4d ",t->lineno);
+        { fprintf(listing,"%-2d ",t->lineno);
           t = t->next;
         }
         fprintf(listing,"\n");
@@ -152,4 +133,4 @@ void printSymTab(FILE * listing)
       }
     }
   }
-} /* printSymTab */
+}

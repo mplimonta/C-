@@ -3,7 +3,7 @@
 /* The C- Yacc/Bison specification file             */
 /****************************************************/
 %{
-#define YYPARSER /* distinguishes Yacc output from other code files */
+#define YYPARSER
 
 #include "globals.h"
 #include "util.h"
@@ -11,11 +11,11 @@
 #include "parse.h"
 
 #define YYSTYPE TreeNode *
-static TreeNode * savedTree; /* stores syntax tree for later return */
+static TreeNode * savedTree;
 static int yylex(void);
 int yyerror(char* msg);
-static char * savedName; /* for use in assignments */
-static int savedLineNo;  /* ditto */
+static char * savedName;
+static int savedLineNo;
 
 
 
@@ -26,7 +26,7 @@ static int savedLineNo;  /* ditto */
 %token LT LET GT GET COMP NEQ EQ PV VIRG APAREN FPAREN
 %token ACOLCH FCOLCH ACHAVE FCHAVE NUM ID ERRO
 
-%% /* Grammar for Cminus */
+%% 
 programa : declaracao_lista     //raiz da arvore
           {savedTree = $1;}
          ;
@@ -475,10 +475,6 @@ num : NUM
 
 %%
 
-
-/* yylex calls getToken to make Yacc/Bison output
- * compatible with ealier versions of the TINY scanner
- */
 static int yylex(void)
 { return getToken(); }
 
