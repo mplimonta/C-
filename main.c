@@ -33,6 +33,7 @@ int lineno = 0;
 FILE * source;
 FILE * listing;
 FILE * code;
+FILE * table;
 
 /* allocate and set tracing flags */
 int EchoSource = FALSE;
@@ -69,23 +70,34 @@ int main( int argc, char * argv[] )
     printTree(syntaxTree);
   }
 #if !NO_ANALYZE
-  if (! Error)
-  { if (TraceAnalyze) fprintf(listing,"\nBuilding Symbol Table...\n");
+  if (! Error){
+    if (TraceAnalyze) fprintf(listing,"\nCreating Symbol Table .smbtbl file...\n");
+    char * tablefile;
+    int fnlen = strcspn(pgm,".");
+    tablefile = (char *) calloc(fnlen+4, sizeof(char));
+    strncpy(tablefile,pgm,fnlen);
+    strcat(tablefile,".smbtbl");
+    table = fopen(tablefile,"w");
+    if (table == NULL){
+      printf("Unable to open %s\n",tablefile);
+      exit(1);
+    }
     buildSymtab(syntaxTree);
+    fclose(table);
     if (TraceAnalyze && !Error) fprintf(listing,"\nChecking Types...\n");
     typeCheck(syntaxTree);
     if (TraceAnalyze && !Error) fprintf(listing,"\nType Checking Finished\n");
   }
 #if !NO_CODE
-  if (! Error)
-  { char * codefile;
+  if (! Error){
+    char * codefile;
     int fnlen = strcspn(pgm,".");
     codefile = (char *) calloc(fnlen+4, sizeof(char));
     strncpy(codefile,pgm,fnlen);
-    strcat(codefile,".cmm");
+    strcat(codefile,".quad");
     code = fopen(codefile,"w");
-    if (code == NULL)
-    { printf("Unable to open %s\n",codefile);
+    if (code == NULL){
+      printf("Unable to open %s\n",codefile);
       exit(1);
     }
     codeGen(syntaxTree);

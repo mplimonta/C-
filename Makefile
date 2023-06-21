@@ -7,9 +7,17 @@ CC = gcc
 
 OBJS = cmc.tab.o lex.yy.o main.o util.o analyze.o symtab.o cgen.o
 
-all: Compilador clean
+cminus_files := $(wildcard *.cminus)
+CminusComp = "./CminusComp"
 
-Compilador:$(OBJS)
+all: Compilador clean Exec
+
+Exec: $(cminus_files)
+	@echo "10"
+	for file in $(cminus_files); do \
+		$(CminusComp) $$file; \
+	done
+Compilador: $(OBJS)
 	@echo "8"
 	$(CC) $(OBJS) -lfl -o CminusComp
 
@@ -44,8 +52,11 @@ cgen.o :
 	$(CC) -c cgen.c
 
 clean:
+	@echo "9"
 	-rm -f $(OBJS)
 	-rm -f cmc.tab.c
 	-rm -f cmc.tab.h
 	-rm -f lex.yy.c
 	-rm -f $(OBJS)
+	find . -name "*.quad" -type f -delete
+	find . -name "*.smbtbl" -type f -delete

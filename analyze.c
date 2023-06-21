@@ -174,8 +174,8 @@ void typeCheck(TreeNode * syntaxTree){
 void buildSymtab(TreeNode * syntaxTree)
 { traverse_insert(syntaxTree, "global");
   if (TraceAnalyze && !Error){
-    fprintf(listing,"\nSymbol table:\n\n");
     printSymTab(listing);
+    fprintf(listing,"File created.\n\n");
   }
 }
 

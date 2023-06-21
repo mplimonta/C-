@@ -109,26 +109,26 @@ ExpType st_lookup_type(char * name){
   return l->type;
 }
 
-void printSymTab(FILE * listing)
-{ int i;
-  fprintf(listing,"MLo  Type Lenght  Name         Scope       Line Numbers\n");
-  fprintf(listing,"---- ---- ------  ------       --------    ------------\n");
-  for (i=0;i<SIZE;++i)
-  { if (hashTable[i] != NULL)
-    { BucketList l = hashTable[i];
-      while (l != NULL)
-      { LineList t = l->lines;
-        fprintf(listing, "%4d ", l->memloc);
-        if(l->type == IntegerK) fprintf(listing, "%-4s ", "int");
-        if(l->type == VoidK) fprintf(listing, "%-3s ", "void");
-        fprintf(listing,"%-7d ",l->len);
-        fprintf(listing,"%-12s ",l->name);
-        fprintf(listing,"%-10s  ",l->scope);
-        while (t != NULL)
-        { fprintf(listing,"%-2d ",t->lineno);
+void printSymTab(FILE * listing){
+  int i;
+  fprintf(table,"MLo  Type Lenght  Name         Scope       Line Numbers\n");
+  fprintf(table,"---- ---- ------  ------       --------    ------------\n");
+  for (i=0;i<SIZE;++i){
+    if (hashTable[i] != NULL){
+      BucketList l = hashTable[i];
+      while (l != NULL){
+        LineList t = l->lines;
+        fprintf(table, "%4d ", l->memloc);
+        if(l->type == IntegerK) fprintf(table, "%-4s ", "int");
+        if(l->type == VoidK) fprintf(table, "%-3s ", "void");
+        fprintf(table,"%-7d ",l->len);
+        fprintf(table,"%-12s ",l->name);
+        fprintf(table,"%-10s  ",l->scope);
+        while (t != NULL){
+          fprintf(table,"%-2d ",t->lineno);
           t = t->next;
         }
-        fprintf(listing,"\n");
+        fprintf(table,"\n");
         l = l->next;
       }
     }
