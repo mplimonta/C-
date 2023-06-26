@@ -34,7 +34,7 @@ static void printOp( TokenType token, const char* tokenString )
 }
 
 static int indexCounter(){
-  count = ++count % 32;
+  count = ++count;
   return count;
 }
 static int labelCounter(){
@@ -87,7 +87,7 @@ static void genStmt(TreeNode * tree){
       case FunK:{
         TreeNode *p1 = tree->child[0];
         //fprintf(code, "dxfg %s %s %d %d\n", p1->attr.name, p1->child[0]->attr.name, p1->kind.exp, p1->child[0]->kind.exp);
-        fprintf(code, "\n(FUNC, %s, %s, -)\n",tree->child[0]->attr.name, tree->attr.name);
+        fprintf(code, "(FUNC, %s, %s, -)\n",tree->child[0]->attr.name, tree->attr.name);
         if(tree->child[0]->child[0] != NULL) cGen(tree->child[0], FunK);
         cGen(tree->child[1], -1);
         fprintf(code, "(END, %s, -, -)\n", tree->attr.name);
@@ -101,7 +101,7 @@ static void genStmt(TreeNode * tree){
       }
 
       case VarK:
-        fprintf(code, "(ALLOC, %s, %s -)\n", tree->attr.name, tree->attr.scope);
+        fprintf(code, "(ALLOC, %s, %s, -)\n", tree->attr.name, tree->attr.scope);
 
         break;
       case AssignK:{
@@ -118,7 +118,7 @@ static void genStmt(TreeNode * tree){
           fprintf(code, ", $t%d, -)\n", count);
 
         }
-        else fprintf(code, ", t%d, -)\n", reg2);
+        else fprintf(code, ", $t%d, -)\n", reg2);
         break;
       }
       default:

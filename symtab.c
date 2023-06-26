@@ -111,21 +111,21 @@ ExpType st_lookup_type(char * name){
 
 void printSymTab(FILE * listing){
   int i;
-  fprintf(table,"MLo  Type Lenght  Name         Scope       Line Numbers\n");
-  fprintf(table,"---- ---- ------  ------       --------    ------------\n");
+  fprintf(table,"MLo|Type|Lenght|Name|Scope|LineNumbers\n");
+  //fprintf(table,"---- ---- ------  ------       --------    ------------\n");
   for (i=0;i<SIZE;++i){
     if (hashTable[i] != NULL){
       BucketList l = hashTable[i];
       while (l != NULL){
         LineList t = l->lines;
-        fprintf(table, "%4d ", l->memloc);
-        if(l->type == IntegerK) fprintf(table, "%-4s ", "int");
-        if(l->type == VoidK) fprintf(table, "%-3s ", "void");
-        fprintf(table,"%-7d ",l->len);
-        fprintf(table,"%-12s ",l->name);
-        fprintf(table,"%-10s  ",l->scope);
+        fprintf(table, "%d|", l->memloc);
+        if(l->type == IntegerK) fprintf(table, "%s|", "int");
+        if(l->type == VoidK) fprintf(table, "%s|", "void");
+        fprintf(table,"%d|",l->len);
+        fprintf(table,"%s|",l->name);
+        fprintf(table,"%s|",l->scope);
         while (t != NULL){
-          fprintf(table,"%-2d ",t->lineno);
+          fprintf(table,"%d ",t->lineno);
           t = t->next;
         }
         fprintf(table,"\n");
