@@ -16,16 +16,14 @@ void main(void){
 }
 */
 
-int funcao(void){
-	int bababoi;
-	bababoi = 1;
-	return bababoi;
-}
-
 void main(void){
+	int vet[10];
 	int x;
-	int bababoi;
-	bababoi = 5;
-	funcao();
+	vet[6] = 5/5;
+	if(vet[6] == 3){
+		x = 2;
+	}else{
+		x = 3;
+	}
 	x = input();
 }

@@ -137,7 +137,7 @@ static void genExp( TreeNode * tree){
       break;
 
     case ConstK :
-      fprintf(code, "(LOAD, $t%d, %d, -)\n", indexCounter(), tree->attr.val);
+      fprintf(code, "(ADDI, $t%d, $ZERO, %d)\n", indexCounter(), tree->attr.val);
       break; /* ConstK */
 
     case IdK :
@@ -155,20 +155,26 @@ static void genExp( TreeNode * tree){
       break;
 
     case OpK :
-      if(tree->child[0]->kind.exp == ConstK){
-        sprintf(rg1, "%d", tree->child[0]->attr.val);
-      }else{
-        cGen(tree->child[0], -1);
-        reg1 = count;
-        sprintf(rg1, "$t%d", reg1);
-      }
-      if(tree->child[1]->kind.exp == ConstK){
-        sprintf(rg2, "%d", tree->child[1]->attr.val);
-      }else{
-        cGen(tree->child[1], -1);
-        reg2 = count;
-        sprintf(rg2, "$t%d", reg2);
-      }
+      cGen(tree->child[0], -1);
+      reg1 = count;
+      sprintf(rg1, "$t%d", reg1);
+      cGen(tree->child[1], -1);
+      reg2 = count;
+      sprintf(rg2, "$t%d", reg2);
+      // if(tree->child[0]->kind.exp == ConstK){
+      //   sprintf(rg1, "%d", tree->child[0]->attr.val);
+      // }else{
+      //   cGen(tree->child[0], -1);
+      //   reg1 = count;
+      //   sprintf(rg1, "$t%d", reg1);
+      // }
+      // if(tree->child[1]->kind.exp == ConstK){
+      //   sprintf(rg2, "%d", tree->child[1]->attr.val);
+      // }else{
+      //   cGen(tree->child[1], -1);
+      //   reg2 = count;
+      //   sprintf(rg2, "$t%d", reg2);
+      // }
       fprintf(code,"(");
       printOp(tree->attr.op, "");
       fprintf(code, ", $t%d, %s, %s)\n", indexCounter(), rg1, rg2);

@@ -1,7 +1,0 @@
-MLo|Type|Lenght|Name|Scope|LineNumbers
-3|int|0|x|main|26 30 
-5|int|0|input|global|30 
-2|void|0|main|global|25 
-0|int|0|funcao|global|19 29 
-4|int|0|bababoi|main|27 28 
-1|int|0|bababoi|funcao|20 21 22 
