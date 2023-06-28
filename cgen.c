@@ -12,7 +12,7 @@ static int tmpOffset = 0;
 
 static void cGen (TreeNode * tree, StmtKind type);
 
-int count = -1;
+int count = 0;
 int label = 0;
 
 static void printOp( TokenType token, const char* tokenString )
@@ -137,7 +137,7 @@ static void genExp( TreeNode * tree){
       break;
 
     case ConstK :
-      fprintf(code, "(ADDI, $t%d, $ZERO, %d)\n", indexCounter(), tree->attr.val);
+      fprintf(code, "(ADDI, $t%d, $t0, %d)\n", indexCounter(), tree->attr.val);
       break; /* ConstK */
 
     case IdK :
