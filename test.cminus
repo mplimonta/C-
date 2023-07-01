@@ -9,6 +9,20 @@ void main(void)
 	x = input(); y = input();
 	output(gcd(x,y));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 int gcd (int u, int v){       
 	if (v == 0) return u ;
