@@ -60,7 +60,7 @@ static void genStmt(TreeNode * tree){
         labelfalse = label;
         labelend = label + 1;        
         label += 2;
-        fprintf(code, "(IFF, $t%d, L%d -)\n", count, labelfalse);
+        fprintf(code, "(IFF, $t%d, L%d, -)\n", count, labelfalse);
         cGen(tree->child[1], -1); 
         fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
         fprintf(code, "(LAB, L%d, -, -)\n", labelfalse);
@@ -74,7 +74,7 @@ static void genStmt(TreeNode * tree){
         cGen(tree->child[0], -1);
         labelend = label + 1;        
         label += 2;
-        fprintf(code, "(WHILE, $t%d, L%d -)\n", count, labelend);
+        fprintf(code, "(WHILE, $t%d, L%d, -)\n", count, labelend);
         cGen(tree->child[1], -1); 
         fprintf(code, "(GOTO, L%d, -, -)\n", labelloop);
         fprintf(code, "(LAB, L%d, -, -)\n", labelend);
