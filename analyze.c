@@ -45,9 +45,9 @@ static void insertNode( TreeNode * t, char ** scope )
         case FunK:
           {
             if (st_lookup(t->attr.name, *scope, *scope) == 0){
-              location = 0;
+              location = -1;
               st_insert(t->attr.name,t->lineno, location, t->type, *scope, *scope, t->attr.len);
-              location = 1;
+              location = 0;
               if(strcmp(t->attr.name,"main") == 0){
                 main_presence = 1;
               }else location = 2;

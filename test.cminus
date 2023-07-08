@@ -1,4 +1,4 @@
-/*
+
 int gcd (int u, int v)
 {       
 	if (v == 0) return u ;
@@ -7,33 +7,41 @@ int gcd (int u, int v)
 
 void main(void)
 {	int x; int y;
-	x = input(); y = input();
+	x = input();
+    y = input();
 	output(gcd(x,y));
 }
+/*
+int fib(int n)
+{
+    int a; int b; int c; int i;
+    a = 0;
+    b = 1;
+    i = 2; 
+    if (n == 0) {
+        return a;
+    } while (i <= n) {
+        c = a + b;
+        a = b;
+        b = c;
+        i = i + 1;
+        output(b);
+    }
+    return b;
+}
+ 
+void main(void)
+{
+    int n;
+    n = input();
+    fib(n);
+}
 
+void main(void)
+{
+    int n;
+    n = input();
+    n = n + 10;
+    output(n);
+}
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-int gcd (int u){   
-	while(u != 35){
-		while(1 == 1){
-			u = u + 1;
-		}
-	}
-	return u;
-}
-void main(void){
-	int x;
-	x = gcd(x);
-}

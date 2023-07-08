@@ -64,9 +64,11 @@ static void genStmt(TreeNode * tree){
         cGen(tree->child[1], -1); 
         fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
         fprintf(code, "(LAB, L%d, -, -)\n", labelfalse);
+        //fprintf(code,"%d\n", count);
         cGen(tree->child[2], -1); 
-        fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
+        //fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
         fprintf(code, "(LAB, L%d, -, -)\n", labelend);
+        
         break;
       case WhileK:
         labelloop = label;
@@ -93,10 +95,11 @@ static void genStmt(TreeNode * tree){
         fprintf(code, "(END, %s, -, -)\n", tree->attr.name);
         break;
       }
-
       case CallK:{
+        // count = count - 1;
         cGen(tree->child[0], CallK);
-        fprintf(code, "(CALL, $t%d, %s, %d)\n", indexCounter(), tree->attr.name, paramCounter(tree));
+        fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
+        if(strcmp("output",tree->attr.name)) fprintf(code, "(SOM, $t%d, $t0, $t28)\n", indexCounter());
         break;
       }
 
