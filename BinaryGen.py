@@ -63,7 +63,7 @@ def convert_instruction_to_binary(instruction):
         binary_instr = f'{opcode} {address}'
     elif instr_type in ['halt']:
         opcode = opcode_table[instr_type]
-        address = "1"*26
+        address = "0"*26
         binary_instr = f'{opcode} {address}'
     elif instr_type in ['input', 'output']:
         opcode = opcode_table[instr_type]

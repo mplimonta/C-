@@ -1,0 +1,6 @@
+(FUNC, void, main, -)
+(ALLOC, vet(5), main, -)
+(ADDI, $t1, $t0, 3)
+(ADDI, $t2, $t0, 2)
+(STORE, vet($t1), $t2, -)
+(END, main, -, -)

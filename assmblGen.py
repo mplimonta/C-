@@ -142,7 +142,10 @@ for i, command in enumerate(commands):
         case 'ALLOC':
             assembly.write("addi $t30 $t30 1\n")
         case 'STORE':
-            assembly.write("sw "+getIndex(command[2],i,2) +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
+            if "(" in command[1]:
+                print(command[1])
+            else:
+                assembly.write("sw "+getIndex(command[2],i,2) +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
         case 'PARAM':
             Params.append(getIndex(command[1],i,1))
         case 'SOM':

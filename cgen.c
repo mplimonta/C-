@@ -104,11 +104,12 @@ static void genStmt(TreeNode * tree){
       }
 
       case VarK:
-        fprintf(code, "(ALLOC, %s, %s, -)\n", tree->attr.name, tree->attr.scope);
-
+        if(tree->attr.len == 0) fprintf(code, "(ALLOC, %s, %s, -)\n", tree->attr.name, tree->attr.scope);
+        else fprintf(code, "(ALLOC, %s(%d), %s, -)\n", tree->attr.name,tree->attr.len, tree->attr.scope);
         break;
+      
       case AssignK:{
-        if(tree->child[0]->kind.exp == VetK)cGen(tree->child[0], -1);
+        if(tree->child[0]->kind.exp == VetK) cGen(tree->child[0], -1);
         reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
@@ -150,7 +151,7 @@ static void genExp( TreeNode * tree){
       //fprintf(code, "(LOADVET, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       cGen(tree->child[0], -1);
       reg1 = count;
-      fprintf(code, "(MULT, $t%d, $t%d, 4)\n", indexCounter(), reg1);
+      //fprintf(code, "(LOAD, $t%d, %s, %d)\n", indexCounter(), tree->attr.name,tree->attr.len);
       reg2 = count;
       //fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->attr.name, reg2);
 
