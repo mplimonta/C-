@@ -44,6 +44,8 @@ int TraceCode = TRUE;
 
 int Error = FALSE;
 
+BucketList *hashTableMain;
+
 int main( int argc, char * argv[] )
 { TreeNode * syntaxTree;
   char pgm[120]; /* source code file name */
@@ -68,7 +70,7 @@ int main( int argc, char * argv[] )
   if (TraceParse) {
     fprintf(listing,"\nSyntax tree:\n");
     printTree(syntaxTree);
-  }
+  } 
 #if !NO_ANALYZE
   if (! Error){
     if (TraceAnalyze) fprintf(listing,"\nCreating Symbol Table .smbtbl file...\n");
@@ -82,7 +84,7 @@ int main( int argc, char * argv[] )
       printf("Unable to open %s\n",tablefile);
       exit(1);
     }
-    buildSymtab(syntaxTree);
+    hashTableMain = buildSymtab(syntaxTree);
     fclose(table);
     if (TraceAnalyze && !Error) fprintf(listing,"\nChecking Types...\n");
     typeCheck(syntaxTree);
@@ -100,7 +102,7 @@ int main( int argc, char * argv[] )
       printf("Unable to open %s\n",codefile);
       exit(1);
     }
-    codeGen(syntaxTree);
+    codeGen(syntaxTree, hashTableMain);
     fclose(code);
   }
 #endif

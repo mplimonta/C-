@@ -60,7 +60,7 @@ extern int lineno; /* source line number for listing */
 /**************************************************/
 
 typedef enum {StmtK,ExpK} NodeKind;
-typedef enum {IfK,WhileK,AssignK,VarK,FunK,CallK, ReturnK} StmtKind;
+typedef enum {IfK,WhileK,AssignK,VarK,FunK,CallK, ReturnK, VetidK} StmtKind;
 typedef enum {OpK,ConstK,IdK, VetK, TypeK} ExpKind;
 
 /* ExpType is used for type checking */
@@ -81,6 +81,24 @@ typedef struct treeNode{
           char* scope; } attr;
   ExpType type; /* for type checking of exps */
 } TreeNode;
+
+
+typedef struct LineListRec
+   { int lineno;
+     struct LineListRec * next;
+   } * LineList;
+
+
+typedef struct BucketListRec
+   { char * name;
+     LineList lines;
+     int memloc;
+     struct BucketListRec * next;
+     char* scope;
+     int len;
+     ExpType type;
+
+   } * BucketList;
 
 /**************************************************/
 /***********   Flags for tracing       ************/

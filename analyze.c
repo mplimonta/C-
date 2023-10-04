@@ -21,7 +21,27 @@ static void insertNode( TreeNode * t, char ** scope )
 { switch (t->nodekind)
   { case StmtK:
       switch (t->kind.stmt)
-      { case VarK:
+      { 
+        case VetidK:
+          if(t->type == VoidK){
+            typeError(t,"Erro semantico. Variaveis do tipo void nao sao permitidas.");
+          }
+          if (st_lookup(t->attr.name, *scope, *scope) == 0){
+            if(t->attr.len > 0){
+              t->attr.scope = *scope;
+              st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
+              location += t->attr.len - 1;
+            }else{
+              /* not yet in table, so treat as new definition */
+              t->attr.scope = *scope;
+              st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
+            }
+          }else
+          /* already in table, so ignore location, 
+             add line number of use only */ 
+             typeError(t,"Erro semantico. Variavel ou funcao ja foi declarada.");
+          break;
+        case VarK:
           if(t->type == VoidK){
             typeError(t,"Erro semantico. Variaveis do tipo void nao sao permitidas.");
           }
@@ -36,8 +56,7 @@ static void insertNode( TreeNode * t, char ** scope )
               st_insert(t->attr.name,t->lineno, location++, t->type, *scope, *scope, t->attr.len);
             }
             
-          }
-          else
+          }else
           /* already in table, so ignore location, 
              add line number of use only */ 
              typeError(t,"Erro semantico. Variavel ou funcao ja foi declarada.");
@@ -89,7 +108,8 @@ static void insertNode( TreeNode * t, char ** scope )
           }
           break;
         case VetK:
-          st_insert(t->attr.name, t->lineno, -1, t->type, *scope, "global", t->attr.len);
+          t->attr.scope = *scope;
+          st_insert(t->attr.name, t->lineno, -1, t->type, *scope, *scope, t->attr.len);
           break;
         default:
           break;
@@ -174,11 +194,12 @@ static void traverse_check( TreeNode * t){
 void typeCheck(TreeNode * syntaxTree){
   traverse_check(syntaxTree);
 }
-void buildSymtab(TreeNode * syntaxTree)
-{ traverse_insert(syntaxTree, "global");
+BucketList* buildSymtab(TreeNode * syntaxTree){
+  traverse_insert(syntaxTree, "global");
   if (TraceAnalyze && !Error){
     printSymTab(listing);
     fprintf(listing,"File created.\n\n");
   }
+  return ret_hashtable();
 }
 

@@ -14,8 +14,9 @@
 
 #define SHIFT 4
 
-static int hash (char* name, char * scope)
-{ int temp = 0;
+int hash(char* name, char * scope)
+{
+  int temp = 0;
   int i = 0;
   while (scope[i] != '\0')
   { temp = ((temp << SHIFT) + scope[i]) % SIZE;
@@ -25,29 +26,8 @@ static int hash (char* name, char * scope)
   { temp = ((temp << SHIFT) + name[i]) % SIZE;
     ++i;
   }
-
   return temp;
 }
-
-
-typedef struct LineListRec
-   { int lineno;
-     struct LineListRec * next;
-   } * LineList;
-
-
-typedef struct BucketListRec
-   { char * name;
-     LineList lines;
-     int memloc;
-     struct BucketListRec * next;
-     char* scope;
-     int len;
-     ExpType type;
-
-   } * BucketList;
-
-
 static BucketList hashTable[SIZE];
 
 
@@ -108,6 +88,25 @@ ExpType st_lookup_type(char * name){
     l = l->next;
   return l->type;
 }
+BucketList* ret_hashtable(){
+  return hashTable;
+}
+
+int ret_Mloc(char* name, char* scope){
+  int h = hash(name, scope);
+  BucketList l =  hashTable[h];
+  while ((l != NULL) && (strcmp(name,l->name) != 0))
+    l = l->next;
+  return l->memloc;
+}
+
+// char* ret_scope(char* name, char* scope){
+//   int h = hash(name, "global");
+//   BucketList l =  hashTable[h];
+//   while ((l != NULL) && (strcmp(name,l->name) != 0))
+//     l = l->next;
+//   return l->scope;
+// }
 
 void printSymTab(FILE * listing){
   int i;

@@ -9,7 +9,7 @@
 /* Function buildSymtab constructs the symbol 
  * table by preorder traversal of the syntax tree
  */
-void buildSymtab(TreeNode *);
+BucketList* buildSymtab(TreeNode *);
 
 /* Procedure typeCheck performs type checking 
  * by a postorder syntax tree traversal

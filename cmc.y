@@ -176,6 +176,7 @@ param : tipo_especificador ident
         $$->attr.name = $1->attr.name;
         $2->nodekind = StmtK;
         $2->type = $1->type;
+        $2->attr.len = $4->attr.val;
         $2->kind.stmt = VetK;
       }
       ;
@@ -428,6 +429,7 @@ fator : APAREN expressao FPAREN
       | num
       {
         $$ = $1;
+        $$->kind.exp = ConstK;
       }
       ;
 ativacao : ident APAREN arg_lista FPAREN

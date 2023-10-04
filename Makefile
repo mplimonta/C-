@@ -5,7 +5,7 @@ FLEX = flex
 
 CC = gcc
 
-OBJS = cmc.tab.o lex.yy.o main.o util.o analyze.o symtab.o cgen.o
+OBJS = cmc.tab.o lex.yy.o util.o symtab.o analyze.o  cgen.o main.o
 
 cminus_files := $(wildcard *.cminus)
 CminusComp = "./CminusComp"
@@ -21,12 +21,12 @@ Compilador: $(OBJS)
 	@echo "8"
 	$(CC) $(OBJS) -lfl -o CminusComp
 
-main.o: main.c globals.h util.h scan.h
-	@echo "3"
+main.o: main.c globals.h util.h scan.h cgen.o
+	@echo "7"
 	$(CC) -c main.c
 
-util.o: util.c util.h globals.h
-	@echo "4"
+util.o:
+	@echo "3"
 	$(CC) -c util.c
 
 cmc.tab.o: cmc.y globals.h
@@ -39,16 +39,16 @@ lex.yy.o: cmc.l scan.h util.h globals.h
 	flex cmc.l
 	$(CC) -c lex.yy.c
   
-analyze.o: symtab.o symtab.h globals.h analyze.h 
-	@echo "6"
+analyze.o: symtab.o symtab.h globals.h analyze.h
+	@echo "5"
 	$(CC) -c analyze.c
 
-symbtab.o: symtab.h
-	@echo "5"
+symbtab.o: util.o symtab.h 
+	@echo "4"
 	$(CC) -c symtab.c
 	
-cgen.o :
-	@echo "7"
+cgen.o : analyze.o
+	@echo "6"
 	$(CC) -c cgen.c
 
 clean:

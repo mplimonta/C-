@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 tbl = pd.read_csv("test.smbtbl", delimiter='|')
 tbl.set_index("MLo", inplace=True)
 file_path = 'test.quad'
@@ -85,10 +86,24 @@ for i, command in enumerate(commands):
         case 'ARG':
             assembly.write("addi $t30 $t30 1\n")
         case 'LOAD':
-            reg = getIndex(command[1],i,1)
-            if command[2] not in usedVars:
-                usedVars[command[2]] = reg
-            assembly.write("lw "+reg+" "+"$t29 "+str(tbl[(tbl['Name'] == command[2]) & (tbl['Scope'] == scope)].index[0])+"\n")
+            #add caso do vetor
+            print(command)
+            if "(" in command[2]:
+                if "$" in command[2]:
+                    regex = re.search(r'\(\$t\d+\)', command[2])
+                    reg = getIndex(command[1],i,1)
+                    if command[2] not in usedVars:
+                        usedVars[command[2]] = reg
+                    assembly.write("lwr " +reg+ " " + "$t29 " + regex.group()[1:-1]+"\n")
+                else:
+                    #actually will never happen :/
+                    regex = re.search(r'\((\d+)\)', command[1])
+                    assembly.write("addi $t30 $t30 "+regex.group()[1:-1]+"\n")
+            else:
+                reg = getIndex(command[1],i,1)
+                if command[2] not in usedVars:
+                    usedVars[command[2]] = reg
+                assembly.write("lw "+reg+" "+"$t29 "+str(tbl[(tbl['Name'] == command[2]) & (tbl['Scope'] == scope)].index[0])+"\n")
         case 'GOTO':
             assembly.write("j "+command[1]+"\n")
         case 'LAB':
@@ -140,10 +155,27 @@ for i, command in enumerate(commands):
             #command[2] is always $t0
             assembly.write("addi "+getIndex(command[1],i,1)+" "+getIndex(command[2],i,2)+" "+command[3]+"\n")
         case 'ALLOC':
-            assembly.write("addi $t30 $t30 1\n")
+            if "(" in command[1]:
+                if "$" in command[1]:
+                    regex = re.search(r'\(\$t\d+\)', command[1])
+                    assembly.write("add $t30 $t30 "+regex.group()[1:-1]+"\n")
+                else:
+                    regex = re.search(r'\((\d+)\)', command[1])
+                    assembly.write("addi $t30 $t30 "+regex.group()[1:-1]+"\n")
+            else:
+                assembly.write("addi $t30 $t30 1\n")
         case 'STORE':
             if "(" in command[1]:
-                print(command[1])
+                if "$" in command[1]:
+                    regex = re.search(r'\(\$t\d+\)', command[2])
+                    reg = getIndex(command[2],i,1)
+                    if command[1] not in usedVars:
+                        usedVars[command[1]] = reg
+                    assembly.write("swr " +reg+ " " + "$t29 " + regex.group()[1:-1]+"\n")
+                else:
+                    #actually will never happen :/
+                    regex = re.search(r'\((\d+)\)', command[1])
+                    assembly.write("addi $t30 $t30 "+regex.group()[1:-1]+"\n")
             else:
                 assembly.write("sw "+getIndex(command[2],i,2) +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
         case 'PARAM':

@@ -10,6 +10,8 @@
 
 static int tmpOffset = 0;
 
+static BucketList *hashTable;
+
 static void cGen (TreeNode * tree, StmtKind type);
 
 int count = 0;
@@ -104,8 +106,13 @@ static void genStmt(TreeNode * tree){
       }
 
       case VarK:
-        if(tree->attr.len == 0) fprintf(code, "(ALLOC, %s, %s, -)\n", tree->attr.name, tree->attr.scope);
-        else fprintf(code, "(ALLOC, %s(%d), %s, -)\n", tree->attr.name,tree->attr.len, tree->attr.scope);
+        if(tree->attr.len == 0){
+          fprintf(code, "(ALLOC, %s, %s, -)\n", tree->attr.name, tree->attr.scope);
+        } 
+        else {
+
+          fprintf(code, "(ALLOC, %s(%d), %s, -)\n", tree->attr.name,tree->attr.len, tree->attr.scope);
+        }
         break;
       
       case AssignK:{
@@ -113,14 +120,21 @@ static void genStmt(TreeNode * tree){
         reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        if(tree->child[1]->kind.exp == VetK) fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, reg2);
-        if(tree->child[0]->kind.exp == VetK)
-        fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, reg1);
-        else fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
-
+        if(tree->child[1]->kind.exp == VetK){
+          //printf("%s %s\n",tree->child[1]->attr.name, tree->child[1]->attr.scope);
+          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->child[1]->attr.name, tree->child[1]->attr.scope));
+          fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, count);
+        }
+        if(tree->child[0]->kind.exp == VetK){
+          //printf("%s %s\n",tree->child[0]->attr.name, tree->child[0]->attr.scope);
+          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
+          fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
+        }
+        else{
+          fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
+        }
         if(tree->child[1]->kind.exp == VetK){
           fprintf(code, ", $t%d, -)\n", count);
-
         }
         else fprintf(code, ", $t%d, -)\n", reg2);
         break;
@@ -129,6 +143,9 @@ static void genStmt(TreeNode * tree){
         break;
     }
 } /* genStmt */
+
+
+
 
 /* Procedure genExp generates code at an expression node */
 static void genExp( TreeNode * tree){
@@ -148,6 +165,7 @@ static void genExp( TreeNode * tree){
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break; /* IdK */
     case VetK :
+      //printf(code, "%s\n",tree->attr.name);
       //fprintf(code, "(LOADVET, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       cGen(tree->child[0], -1);
       reg1 = count;
@@ -207,8 +225,7 @@ static void cGen(TreeNode * tree, StmtKind type){
   }
 }
 
-void codeGen(TreeNode * syntaxTree){
+void codeGen(TreeNode * syntaxTree, BucketList* hashTableMain){
+    hashTable = hashTableMain;
     cGen(syntaxTree, -1);
-    
-
 }
