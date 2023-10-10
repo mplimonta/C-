@@ -25,6 +25,7 @@ def convert_instruction_to_binary(instruction):
         'jal':  '001011',
         'input':  '001100',
         'output':  '001101',
+
         'halt': '111111'
     }
     funct_table = {

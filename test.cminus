@@ -231,7 +231,6 @@ void main(void) {
     int x;
     int vet[5];
     vet[3] = 2;
+    vet[4] = vet[3];
     x = vet[3];
-    /*output(x);
-    */
 }

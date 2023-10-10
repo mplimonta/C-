@@ -1,0 +1,4 @@
+MLo|Type|Lenght|Name|Scope|LineNumbers
+1|int|5|vet|main|232 233 234 234 235 
+0|int|0|x|main|231 235 
+-1|void|0|main|global|230 

@@ -120,12 +120,18 @@ static void genStmt(TreeNode * tree){
         reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        if(tree->child[1]->kind.exp == VetK){
+        if(tree->child[1]->kind.exp == VetK && tree->child[0]->kind.exp == VetK){
+          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->child[1]->attr.name, tree->child[1]->attr.scope));
+          fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, count);
+          reg2 = count;
+          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
+          fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
+        }else if(tree->child[1]->kind.exp == VetK){
           //printf("%s %s\n",tree->child[1]->attr.name, tree->child[1]->attr.scope);
           fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->child[1]->attr.name, tree->child[1]->attr.scope));
           fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, count);
-        }
-        if(tree->child[0]->kind.exp == VetK){
+          fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
+        }else if(tree->child[0]->kind.exp == VetK){
           //printf("%s %s\n",tree->child[0]->attr.name, tree->child[0]->attr.scope);
           fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
           fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
@@ -133,7 +139,9 @@ static void genStmt(TreeNode * tree){
         else{
           fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
         }
-        if(tree->child[1]->kind.exp == VetK){
+        if(tree->child[1]->kind.exp == VetK && tree->child[0]->kind.exp == VetK){
+          fprintf(code, ", $t%d, -)\n", reg2);
+        }else if(tree->child[1]->kind.exp == VetK){
           fprintf(code, ", $t%d, -)\n", count);
         }
         else fprintf(code, ", $t%d, -)\n", reg2);

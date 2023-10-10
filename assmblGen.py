@@ -87,7 +87,7 @@ for i, command in enumerate(commands):
             assembly.write("addi $t30 $t30 1\n")
         case 'LOAD':
             #add caso do vetor
-            print(command)
+            # print(command)
             if "(" in command[2]:
                 if "$" in command[2]:
                     regex = re.search(r'\(\$t\d+\)', command[2])
@@ -167,10 +167,8 @@ for i, command in enumerate(commands):
         case 'STORE':
             if "(" in command[1]:
                 if "$" in command[1]:
-                    regex = re.search(r'\(\$t\d+\)', command[2])
-                    reg = getIndex(command[2],i,1)
-                    if command[1] not in usedVars:
-                        usedVars[command[1]] = reg
+                    regex = re.search(r'\(\$t\d+\)', command[1])
+                    reg = command[2]
                     assembly.write("swr " +reg+ " " + "$t29 " + regex.group()[1:-1]+"\n")
                 else:
                     #actually will never happen :/
