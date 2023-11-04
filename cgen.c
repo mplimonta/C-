@@ -66,9 +66,7 @@ static void genStmt(TreeNode * tree){
         cGen(tree->child[1], -1); 
         fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
         fprintf(code, "(LAB, L%d, -, -)\n", labelfalse);
-        //fprintf(code,"%d\n", count);
         cGen(tree->child[2], -1); 
-        //fprintf(code, "(GOTO, L%d, -, -)\n", labelend);
         fprintf(code, "(LAB, L%d, -, -)\n", labelend);
         
         break;
@@ -90,7 +88,6 @@ static void genStmt(TreeNode * tree){
 
       case FunK:{
         TreeNode *p1 = tree->child[0];
-        //fprintf(code, "dxfg %s %s %d %d\n", p1->attr.name, p1->child[0]->attr.name, p1->kind.exp, p1->child[0]->kind.exp);
         fprintf(code, "(FUNC, %s, %s, -)\n",tree->child[0]->attr.name, tree->attr.name);
         if(tree->child[0]->child[0] != NULL) cGen(tree->child[0], FunK);
         cGen(tree->child[1], -1);
@@ -98,7 +95,6 @@ static void genStmt(TreeNode * tree){
         break;
       }
       case CallK:{
-        // count = count - 1;
         cGen(tree->child[0], CallK);
         fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
         if(strcmp("output",tree->attr.name)) fprintf(code, "(SOM, $t%d, $t0, $t28)\n", indexCounter());
@@ -116,23 +112,11 @@ static void genStmt(TreeNode * tree){
         break;
       
       case AssignK:{
-        if(tree->child[0]->kind.exp == VetK) cGen(tree->child[0], -1);
-        reg1 = count;
         cGen(tree->child[1], -1);
         reg2 = count;
-        if(tree->child[1]->kind.exp == VetK && tree->child[0]->kind.exp == VetK){
-          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->child[1]->attr.name, tree->child[1]->attr.scope));
-          fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, count);
-          reg2 = count;
-          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
-          fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
-        }else if(tree->child[1]->kind.exp == VetK){
-          //printf("%s %s\n",tree->child[1]->attr.name, tree->child[1]->attr.scope);
-          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->child[1]->attr.name, tree->child[1]->attr.scope));
-          fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->child[1]->attr.name, count);
-          fprintf(code, "(STORE, %s", tree->child[0]->attr.name);
-        }else if(tree->child[0]->kind.exp == VetK){
-          //printf("%s %s\n",tree->child[0]->attr.name, tree->child[0]->attr.scope);
+        if(tree->child[0]->kind.exp == VetK) cGen(tree->child[0]->child[0], -1);
+        reg1 = count;
+        if(tree->child[0]->kind.exp == VetK){
           fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
           fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
         }
@@ -173,15 +157,11 @@ static void genExp( TreeNode * tree){
       fprintf(code, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
       break; /* IdK */
     case VetK :
-      //printf(code, "%s\n",tree->attr.name);
-      //fprintf(code, "(LOADVET, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
-      cGen(tree->child[0], -1);
       reg1 = count;
-      //fprintf(code, "(LOAD, $t%d, %s, %d)\n", indexCounter(), tree->attr.name,tree->attr.len);
+      cGen(tree->child[0], -1);
       reg2 = count;
-      //fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->attr.name, reg2);
-
-      //, "(LOAD, $t%d, %s, -)\n", indexCounter(), tree->attr.name);
+      fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->attr.name, tree->attr.scope));
+      fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->attr.name, count);
       break;
 
     case OpK :
@@ -191,20 +171,6 @@ static void genExp( TreeNode * tree){
       cGen(tree->child[1], -1);
       reg2 = count;
       sprintf(rg2, "$t%d", reg2);
-      // if(tree->child[0]->kind.exp == ConstK){
-      //   sprintf(rg1, "%d", tree->child[0]->attr.val);
-      // }else{
-      //   cGen(tree->child[0], -1);
-      //   reg1 = count;
-      //   sprintf(rg1, "$t%d", reg1);
-      // }
-      // if(tree->child[1]->kind.exp == ConstK){
-      //   sprintf(rg2, "%d", tree->child[1]->attr.val);
-      // }else{
-      //   cGen(tree->child[1], -1);
-      //   reg2 = count;
-      //   sprintf(rg2, "$t%d", reg2);
-      // }
       fprintf(code,"(");
       printOp(tree->attr.op, "");
       fprintf(code, ", $t%d, %s, %s)\n", indexCounter(), rg1, rg2);
@@ -225,10 +191,11 @@ static void cGen(TreeNode * tree, StmtKind type){
       default:
         break;
     }
-    if(type == CallK) fprintf(code, "(PARAM, $t%d, -, -)\n", count);
     if(type == FunK){
       fprintf(code, "(ARG, %s, %s, %s)\n", tree->attr.name, tree->child[0]->attr.name, tree->attr.scope);
     }
+    if(type == CallK) fprintf(code, "(PARAM, $t%d, -, -)\n", count);
+
     cGen(tree->sibling, type);
   }
 }

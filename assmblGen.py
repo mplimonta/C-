@@ -94,7 +94,7 @@ for i, command in enumerate(commands):
                     reg = getIndex(command[1],i,1)
                     if command[2] not in usedVars:
                         usedVars[command[2]] = reg
-                    assembly.write("lwr " +reg+ " " + "$t29 " + regex.group()[1:-1]+"\n")
+                    assembly.write("lw " +reg+ " " + regex.group()[1:-1] + " 0"+"\n")
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])
@@ -169,7 +169,9 @@ for i, command in enumerate(commands):
                 if "$" in command[1]:
                     regex = re.search(r'\(\$t\d+\)', command[1])
                     reg = command[2]
-                    assembly.write("swr " +reg+ " " + "$t29 " + regex.group()[1:-1]+"\n")
+
+                    #print(command[1], regex.group()[1:-1])
+                    assembly.write("sw " +reg+ " " + regex.group()[1:-1]+ " 0"+"\n")
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])
