@@ -1,4 +1,64 @@
 /*
+void main(void) {
+    /* S.O. */
+    
+    int programas[2];
+    programas[0] = ; /*inicio do P0*/
+    programas[1] = ; /*inicio do P1*/
+    while(1 == 1){
+
+    }
+}
+*/
+
+void main(void) {
+    
+    int vet[5];
+    int x;
+    int maior;
+    x = 0;
+    maior = 0;
+    vet[0] = 31;
+    vet[1] = 1;
+    vet[2] = 73;
+    vet[3] = 22;
+    vet[4] = 7;
+    while(x < 5){
+        if(vet[x] > maior){
+            maior = vet[x];
+        }
+        x = x + 1;
+    }
+    output(maior);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 int gcd (int u, int v)
 {       
 	if (v == 0) return u ;
@@ -226,24 +286,3 @@ void main(void) {
     output(res);
 }
 */
-
-
-void main(void) {
-    int vet[5];
-    int x;
-    int maior;
-    x = 0;
-    maior = 0;
-    vet[0] = 31;
-    vet[1] = 1;
-    vet[2] = 73;
-    vet[3] = 22;
-    vet[4] = 7;
-    while(x < 5){
-        if(vet[x] > maior){
-            maior = vet[x];
-        }
-        x = x + 1;
-    }
-    output(maior);
-}
