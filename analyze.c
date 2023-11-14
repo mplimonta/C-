@@ -80,7 +80,12 @@ static void insertNode( TreeNode * t, char ** scope )
           }
           break;
         case CallK:
-                if(!strcmp(t->attr.name, "output") || !strcmp(t->attr.name, "input")){
+                if(!strcmp(t->attr.name, "output") 
+                || !strcmp(t->attr.name, "input")
+                || !strcmp(t->attr.name, "LoadAndExecute")
+                || !strcmp(t->attr.name, "save")
+                || !strcmp(t->attr.name, "load")
+                || !strcmp(t->attr.name, "changeMemory")){
                   if(st_lookup(t->attr.name, *scope, "global") == 0){
                     ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
                     st_insert(t->attr.name, t->lineno, location++, type, "global", "global", t->attr.len);
@@ -150,7 +155,12 @@ static void checkNode(TreeNode * t)
             typeError(t->child[0],"if test is not Boolean");
           break;
         case AssignK:
-          if(t->child[1]->attr.name == "input" || t->child[1]->attr.name == "output"){
+          if(t->child[1]->attr.name == "input" 
+          || t->child[1]->attr.name == "output" 
+          ||t->child[1]->attr.name == "save"
+          ||t->child[1]->attr.name == "load"
+          ||t->child[1]->attr.name == "changeMemory"
+          ||t->child[1]->attr.name == "LoadAndExecute"){
             break;
           }
           if((st_lookup(t->child[1]->attr.name, "global", "global")) && (st_lookup_type(t->child[1]->attr.name) == VoidK)){

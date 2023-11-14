@@ -1,57 +1,64 @@
 j main
 LAB main
 addi $t29 $t30 0
-addi $t30 $t30 5
+addi $t30 $t30 2
+addi $t30 $t30 2
 addi $t30 $t30 1
 addi $t30 $t30 1
 addi $t1 $t0 0
-sw $t1 $t29 5
-addi $t2 $t0 0
-sw $t2 $t29 6
-addi $t3 $t0 31
-addi $t4 $t0 0
-addi $t5 $t4 0
-sw $t3 $t5 0
-addi $t6 $t0 1
-addi $t7 $t0 1
-addi $t8 $t7 0
-sw $t6 $t8 0
-addi $t9 $t0 73
-addi $t10 $t0 2
-addi $t11 $t10 0
-sw $t9 $t11 0
-addi $t12 $t0 22
-addi $t13 $t0 3
-addi $t14 $t13 0
-sw $t12 $t14 0
-addi $t15 $t0 7
-addi $t16 $t0 4
-addi $t17 $t16 0
-sw $t15 $t17 0
+changemem $t1
+add $t2 $t0 $t28
+addi $t3 $t0 0
+sw $t3 $t29 4
+addi $t4 $t0 100
+addi $t5 $t0 0
+addi $t6 $t5 0
+sw $t4 $t6 0
+addi $t7 $t0 200
+addi $t8 $t0 1
+addi $t9 $t8 0
+sw $t7 $t9 0
 LAB L0
-lw $t18 $t29 5
-addi $t19 $t0 5
-lt $t20 $t18 $t19
-beq $t20 $t0 L1
-lw $t21 $t29 5
-addi $t22 $t21 0
-lw $t23 $t22 0
-lw $t24 $t29 6
-gt $t25 $t23 $t24
-beq $t25 $t0 L2
-lw $t26 $t29 5
-addi $t27 $t26 0
-lw $t28 $t27 0
-sw $t28 $t29 6
+addi $t10 $t0 1
+addi $t11 $t0 1
+comp $t12 $t10 $t11
+beq $t12 $t0 L1
+save
+add $t13 $t0 $t28
+lw $t14 $t29 4
+addi $t15 $t0 1
+add $t16 $t14 $t15
+changemem $t16
+add $t17 $t0 $t28
+lw $t18 $t29 4
+addi $t19 $t18 0
+lw $t20 $t19 0
+lw $t21 $t29 4
+addi $t22 $t0 1
+add $t23 $t21 $t22
+exec $t20
+changemem $t23
+add $t24 $t0 $t28
+save
+add $t25 $t0 $t28
+addi $t26 $t0 0
+changemem $t26
+add $t27 $t0 $t28
+load
+add $t28 $t0 $t28
+lw $t1 $t29 4
+addi $t2 $t0 2
+comp $t3 $t1 $t2
+beq $t3 $t0 L2
+addi $t1 $t0 0
+sw $t1 $t29 4
 j L3
 LAB L2
-LAB L3
-lw $t1 $t29 5
+lw $t1 $t29 4
 addi $t2 $t0 1
 add $t3 $t1 $t2
-sw $t3 $t29 5
+sw $t3 $t29 4
+LAB L3
 j L0
 LAB L1
-lw $t1 $t29 6
-output $t1
 halt

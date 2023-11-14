@@ -1,0 +1,27 @@
+void main(void) {
+    /* S.O. */
+    int programas[2];
+    int states[2];
+    int i;
+    int program;
+    changeMemory(0);        /*Change MemSgmnt to O.S's*/
+    i = 0;
+    programas[0] = 100;         /*inicio do P0*/
+    programas[1] = 200;         /*inicio do P1*/
+    while(1 == 1){
+        save();             /*save OS regs on Memory*/
+        changeMemory(i+1);  /*Change MemSgmnt to program's sgmnt*/
+        LoadAndExecute(programas[i], i+1);   
+        /*load program regs from Memory and
+        Exec prog until quantum or halt*/
+        save();             /*Save program regs on Memory*/
+        changeMemory(0);    /*Change MemSgmnt to O.S's*/
+        load();             /*load O.S. regs from Memory*/
+
+        if(i == 2){
+            i = 0;
+        }else{
+            i = i + 1;
+        }
+    }
+}
