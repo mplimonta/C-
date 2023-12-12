@@ -25,10 +25,7 @@ def convert_instruction_to_binary(instruction):
         'jal':   '001011',
         'input': '001100',
         'output':'001101',
-        'save':  '001110',
-        'load':  '001111',
-        'changemem':'010000',
-        'exec':'010001',
+        'NextLineTBE':'001110',
         'halt': '111111'
     }
     funct_table = {
@@ -65,7 +62,7 @@ def convert_instruction_to_binary(instruction):
         opcode = opcode_table[instr_type]
         address = format(int(instr_parts[1].strip("$t")), '026b')
         binary_instr = f'{opcode}{address}'
-    elif instr_type in ['halt']:
+    elif instr_type in ['halt','NextLineTBE']:
         opcode = opcode_table[instr_type]
         address = "0"*26
         binary_instr = f'{opcode}{address}'
@@ -74,10 +71,6 @@ def convert_instruction_to_binary(instruction):
         rs = toBinary(instr_parts[1])
         immediate = format(0, '021b')
         binary_instr = f'{opcode}{rs}{immediate}'
-    elif instr_type in ['save', 'load']:
-        opcode = opcode_table[instr_type]
-        immediate = format(0, '026b')
-        binary_instr = f'{opcode}{immediate}'
     else:
         opcode = opcode_table[instr_type]
         funct = funct_table[instr_type]

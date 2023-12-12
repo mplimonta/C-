@@ -95,7 +95,16 @@ static void genStmt(TreeNode * tree){
         break;
       }
       case CallK:{
+        if(!strcmp("sw",tree->attr.name)){
+          fprintf(code, "(STORE, $t%d, $t0, %d)\n", tree->child[0]->attr.val ,tree->child[0]->attr.val);
+          break;
+        }
+        if(!strcmp("NextLineTBE",tree->attr.name)){
+          fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
+          break;
+        } 
         cGen(tree->child[0], CallK);
+        //fprintf(code, "%s\n", tree->attr.name);
         fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
         if(strcmp("output",tree->attr.name)) fprintf(code, "(SOM, $t%d, $t0, $t28)\n", indexCounter());
         break;

@@ -126,17 +126,13 @@ for i, command in enumerate(commands):
             elif command[2] == "output":
                 assembly.write("output " +Params[0]+"\n")
                 Params = []
-            elif command[2] == "save":
-                assembly.write("save" + "\n")
-            elif command[2] == "load":
-                assembly.write("load" + "\n")
-            elif command[2] == "changeMemory":
-                assembly.write("changemem " +Params[0]+"\n")
-                Params = []
-            elif command[2] == "LoadAndExecute":
-                assembly.write("exec " +Params[0]+"\n")
-                assembly.write("changemem " +Params[1]+"\n")
-                Params = []
+            elif command[2] == "sw":
+                print(command, Params)
+                assembly.write("sw " +  Params[0]+" "+ "$t0"+" "+ command[3]+"\n")
+            elif command[2] == "lw":
+                assembly.write("lw " +  Params[0]+" "+ Params[1]+" "+ command[3]+ "\n")
+            elif command[2] == "NextLineTBE":
+                assembly.write("NextLineTBE"+"\n")
             else:
                 regs = set(list(usedVars.values())+Params)
                 backup = regs.copy()
