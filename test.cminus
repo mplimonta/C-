@@ -41,9 +41,8 @@ void main(void) {
         sw(29);
         sw(30);
         sw(31);
-        NextLineTBE(); /* Salva a posicao da rom na 0 na ram FEITO*/
-
-        /*changeOffset(i+1 * 288); Change Offset to program's sgmnt*/
+        NextLineTBE();              /* Salva a posicao da rom na 0 na ram FEITO*/
+        changeOffset(288 * (i+1));  /*Change Offset to program's sgmnt*/
         lw(1);
         lw(2);
         lw(3);
@@ -75,10 +74,10 @@ void main(void) {
         lw(29);
         lw(30);
         lw(31);
-        changeROM(); /* executa processo */
-        /*sw      /*DEVO RETORNAR AQUI*/
+        /*changeROM();  executa processo */
+        /*sw      DEVO RETORNAR AQUI
         lw*/
-        changeROM();
+        /*changeROM();*/
         /*LoadAndExecute(processes[i], i+1); */  
         /* 
         load program regs from Memory and

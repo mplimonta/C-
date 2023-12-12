@@ -85,9 +85,11 @@ for i, command in enumerate(commands):
 
         case 'ARG':
             assembly.write("addi $t30 $t30 1\n")
+        case 'LOADREG':
+            assembly.write("lw "+str(command[1]) + " " +str(command[2])+ " " +str(command[3])+"\n")
         case 'LOAD':
             #add caso do vetor
-            # print(command)
+            #print(command)
             if "(" in command[2]:
                 if "$" in command[2]:
                     regex = re.search(r'\(\$t\d+\)', command[2])
@@ -126,11 +128,14 @@ for i, command in enumerate(commands):
             elif command[2] == "output":
                 assembly.write("output " +Params[0]+"\n")
                 Params = []
+            elif command[2] == "changeOffset":
+                assembly.write("changeOffset " +Params[0]+"\n")
+                Params = []
             elif command[2] == "sw":
-                print(command, Params)
                 assembly.write("sw " +  Params[0]+" "+ "$t0"+" "+ command[3]+"\n")
             elif command[2] == "lw":
-                assembly.write("lw " +  Params[0]+" "+ Params[1]+" "+ command[3]+ "\n")
+                #print(command, Params)
+                assembly.write("lw " + "$t1 $t0 "+command[3]+ "\n")
             elif command[2] == "NextLineTBE":
                 assembly.write("NextLineTBE"+"\n")
             else:
