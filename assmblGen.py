@@ -138,6 +138,8 @@ for i, command in enumerate(commands):
                 assembly.write("lw " + "$t1 $t0 "+command[3]+ "\n")
             elif command[2] == "NextLineTBE":
                 assembly.write("NextLineTBE"+"\n")
+            elif command[2] == "changeROM":
+                assembly.write("changeROM"+"\n")
             else:
                 regs = set(list(usedVars.values())+Params)
                 backup = regs.copy()

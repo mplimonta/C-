@@ -1,7 +1,3 @@
 MLo|Type|Lenght|Name|Scope|LineNumbers
-5|int|0|i|main|3 6 12 13 14 16 16 
-8|void|0|output|global|18 
-7|int|0|input|global|7 8 9 10 11 
 -1|void|0|main|global|1 
-6|int|0|maior|main|4 5 13 14 18 
-0|int|5|processes|main|2 7 8 9 10 11 13 14 
+0|int|0|changeROM|global|2 

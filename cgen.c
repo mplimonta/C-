@@ -107,6 +107,10 @@ static void genStmt(TreeNode * tree){
           fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
           break;
         }
+        if(!strcmp("changeROM",tree->attr.name)){
+          fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
+          break;
+        }
         cGen(tree->child[0], CallK);
         //fprintf(code, "%s\n", tree->attr.name);
         fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));

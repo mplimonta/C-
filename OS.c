@@ -74,7 +74,7 @@ void main(void) {
         lw(29);
         lw(30);
         lw(31);
-        /*changeROM();  executa processo */
+        changeROM();  /*executa processo */
         /*sw      DEVO RETORNAR AQUI
         lw*/
         /*changeROM();*/
