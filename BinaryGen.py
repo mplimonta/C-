@@ -27,6 +27,7 @@ def convert_instruction_to_binary(instruction):
         'output':'001101',
         'NextLineTBE':'001110',
         'changeOffset':'001111',
+        'changeROM':'010000',
         'halt': '111111'
     }
     funct_table = {
@@ -63,7 +64,7 @@ def convert_instruction_to_binary(instruction):
         opcode = opcode_table[instr_type]
         address = format(int(instr_parts[1].strip("$t")), '026b')
         binary_instr = f'{opcode}{address}'
-    elif instr_type in ['halt','NextLineTBE']:
+    elif instr_type in ['halt','NextLineTBE','changeROM']:
         opcode = opcode_table[instr_type]
         address = "0"*26
         binary_instr = f'{opcode}{address}'

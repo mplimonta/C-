@@ -1,3 +1,26 @@
-void main(void) {
-    changeROM();
+int gc(int a){
+    return a;
 }
+
+void main(void) {
+    int i;
+    i = 5;
+    output(gc(i));
+}
+
+
+/*
+addi $t1 $t0 19
+sw $t1 $t0 1
+sw $t0 $t0 8
+lw $t2 $t0 1
+output $t2
+addi $t2 $t0 288
+changeROM
+output $t2
+changeOffset $t2
+changeROM
+halt
+
+
+*/

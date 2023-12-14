@@ -1,3 +1,6 @@
 MLo|Type|Lenght|Name|Scope|LineNumbers
--1|void|0|main|global|1 
-0|int|0|changeROM|global|2 
+0|int|0|i|main|6 7 8 
+1|void|0|output|global|8 
+-1|void|0|main|global|5 
+-1|int|0|gc|global|1 8 
+2|int|0|a|gc|1 2 
