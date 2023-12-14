@@ -61,6 +61,7 @@ for i, command in enumerate(commands):
     for reg in command[1:]:
         if "$t" in reg and reg[2:] not in usedIndexes:
             usedIndexes.append(reg[2:])
+    #print(command)
     match command[0]:
         case 'FUNC':
             if not jump:
@@ -87,6 +88,8 @@ for i, command in enumerate(commands):
             assembly.write("addi $t30 $t30 1\n")
         case 'LOADREG':
             assembly.write("lw "+str(command[1]) + " " +str(command[2])+ " " +str(command[3])+"\n")
+        case 'STOREG':
+            assembly.write("sw "+str(command[1]) + " " +str(command[2])+ " " +str(command[3])+"\n")
         case 'LOAD':
             #add caso do vetor
             #print(command)
@@ -140,6 +143,8 @@ for i, command in enumerate(commands):
                 assembly.write("NextLineTBE"+"\n")
             elif command[2] == "changeROM":
                 assembly.write("changeROM"+"\n")
+            elif command[2] == "setProcessLine":
+                assembly.write("setProcessLine "+Params[0]+"\n")
             else:
                 regs = set(list(usedVars.values())+Params)
                 backup = regs.copy()

@@ -85,7 +85,8 @@ static void insertNode( TreeNode * t, char ** scope )
                 || !strcmp(t->attr.name, "sw")
                 || !strcmp(t->attr.name, "NextLineTBE")
                 || !strcmp(t->attr.name, "changeOffset")
-                || !strcmp(t->attr.name, "changeROM")){
+                || !strcmp(t->attr.name, "changeROM")
+                || !strcmp(t->attr.name, "setProcessLine")){
                   if(st_lookup(t->attr.name, *scope, "global") == 0){
                     ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
                     st_insert(t->attr.name, t->lineno, location++, type, "global", "global", t->attr.len);
@@ -161,7 +162,8 @@ static void checkNode(TreeNode * t)
           ||t->child[1]->attr.name == "lw"
           ||t->child[1]->attr.name == "NextLineTBE"
           ||t->child[1]->attr.name == "changeOffset"
-          ||t->child[1]->attr.name == "changeROM"){
+          ||t->child[1]->attr.name == "changeROM"
+          ||t->child[1]->attr.name == "setProcessLine"){
             break;
           }
           if((st_lookup(t->child[1]->attr.name, "global", "global")) && (st_lookup_type(t->child[1]->attr.name) == VoidK)){

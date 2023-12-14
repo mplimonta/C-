@@ -1,26 +1,144 @@
-int gc(int a){
-    return a;
-}
-
 void main(void) {
+    /* S.O. */
+    int processes[5];
+    int states[5];
     int i;
-    i = 5;
-    output(gc(i));
+    int program;
+    i = 0;               
+    while(1 == 1){
+        sw(1);                          /*save OS regs on Memory*/
+        sw(2);
+        sw(3);
+        sw(4);
+        sw(5);
+        sw(6);
+        sw(7);
+        sw(8);
+        sw(9);
+        sw(10);
+        sw(11);
+        sw(12);
+        sw(13);
+        sw(14);
+        sw(15);
+        sw(16);
+        sw(17);
+        sw(18);
+        sw(19);
+        sw(20);
+        sw(21);
+        sw(22);
+        sw(23);
+        sw(24);
+        sw(25);
+        sw(26);
+        sw(27);
+        sw(28);
+        sw(29);
+        sw(30);
+        sw(31);
+        NextLineTBE();              /* Salva a posicao da rom na 0 na ram FEITO*/
+        changeOffset(288 * (i+1));  /*Change Offset to program's sgmnt*/
+        lw(1);
+        lw(2);
+        lw(3);
+        lw(4);
+        lw(5);
+        lw(6);
+        lw(7);
+        lw(8);          /*lw $t8 $t0 8 */
+        lw(9);
+        lw(10);
+        lw(11);
+        lw(12);
+        lw(13);
+        lw(14);
+        lw(15);
+        lw(16);
+        lw(17);
+        lw(18);
+        lw(19);
+        lw(20);
+        lw(21);
+        lw(22);
+        lw(23);
+        lw(24);
+        lw(25);
+        lw(26);
+        lw(27);
+        lw(28);
+        lw(29);
+        lw(30);
+        lw(31);
+        changeROM();  /*executa processo */
+        output(1970);
+        sw(1);        /*DEVO RETORNAR AQUI*/
+        sw(2);
+        sw(3);
+        sw(4);
+        sw(5);
+        sw(6);
+        sw(7);
+        sw(8);
+        sw(9);
+        sw(10);
+        sw(11);
+        sw(12);
+        sw(13);
+        sw(14);
+        sw(15);
+        sw(16);
+        sw(17);
+        sw(18);
+        sw(19);
+        sw(20);
+        sw(21);
+        sw(22);
+        sw(23);
+        sw(24);
+        sw(25);
+        sw(26);
+        sw(27);
+        sw(28);
+        sw(29);
+        sw(30);
+        sw(31);
+        changeOffset(0);
+        lw(1);
+        lw(2);
+        lw(3);
+        lw(4);
+        lw(5);
+        lw(6);
+        lw(7);
+        lw(8);
+        lw(9);
+        lw(10);
+        lw(11);
+        lw(12);
+        lw(13);
+        lw(14);
+        lw(15);
+        lw(16);
+        lw(17);
+        lw(18);
+        lw(19);
+        lw(20);
+        lw(21);
+        lw(22);
+        lw(23);
+        lw(24);
+        lw(25);
+        lw(26);
+        lw(27);
+        lw(28);
+        lw(29);
+        lw(30);
+        lw(31);
+        if(i == 2){
+            i = 0;
+        }else{
+            i = i + 1;
+        }
+    }
 }
-
-
-/*
-addi $t1 $t0 19
-sw $t1 $t0 1
-sw $t0 $t0 8
-lw $t2 $t0 1
-output $t2
-addi $t2 $t0 288
-changeROM
-output $t2
-changeOffset $t2
-changeROM
-halt
-
-
-*/

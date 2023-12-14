@@ -28,6 +28,7 @@ def convert_instruction_to_binary(instruction):
         'NextLineTBE':'001110',
         'changeOffset':'001111',
         'changeROM':'010000',
+        'setProcessLine': '010001',
         'halt': '111111'
     }
     funct_table = {

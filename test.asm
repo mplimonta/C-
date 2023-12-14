@@ -1,31 +1,166 @@
 j main
-LAB gc
-addi $t30 $t30 1
-sw $t31 $t29 1
-addi $t30 $t30 1
-lw $t1 $t29 2
-addi $t28 $t1 0
-j FIM:gc
-LAB FIM:gc
-lw $t31 $t29 1
-jr $t31
 LAB main
 addi $t29 $t30 0
+addi $t30 $t30 5
+addi $t30 $t30 5
 addi $t30 $t30 1
-addi $t2 $t0 5
-sw $t2 $t29 0
-lw $t3 $t29 0
-sw $t3 $t30 0
 addi $t30 $t30 1
-sw $t29 $t30 0
-addi $t29 $t30 0
-addi $t30 $t30 1
-sw $t3 $t29 2
-jal gc
-addi $t30 $t29 0
-lw $t29 $t29 0
-subi $t30 $t30 1
-lw $t3 $t30 0
-add $t4 $t0 $t28
-output $t4
+addi $t1 $t0 0
+sw $t1 $t29 10
+LAB L0
+addi $t2 $t0 1
+addi $t3 $t0 1
+comp $t4 $t2 $t3
+beq $t4 $t0 L1
+sw $t1 $t0 1
+sw $t2 $t0 2
+sw $t3 $t0 3
+sw $t4 $t0 4
+sw $t5 $t0 5
+sw $t6 $t0 6
+sw $t7 $t0 7
+sw $t8 $t0 8
+sw $t9 $t0 9
+sw $t10 $t0 10
+sw $t11 $t0 11
+sw $t12 $t0 12
+sw $t13 $t0 13
+sw $t14 $t0 14
+sw $t15 $t0 15
+sw $t16 $t0 16
+sw $t17 $t0 17
+sw $t18 $t0 18
+sw $t19 $t0 19
+sw $t20 $t0 20
+sw $t21 $t0 21
+sw $t22 $t0 22
+sw $t23 $t0 23
+sw $t24 $t0 24
+sw $t25 $t0 25
+sw $t26 $t0 26
+sw $t27 $t0 27
+sw $t28 $t0 28
+sw $t29 $t0 29
+sw $t30 $t0 30
+sw $t31 $t0 31
+NextLineTBE
+addi $t5 $t0 288
+lw $t6 $t29 10
+addi $t7 $t0 1
+add $t8 $t6 $t7
+mult $t9 $t5 $t8
+changeOffset $t9
+lw $t1 $t0 1
+lw $t2 $t0 2
+lw $t3 $t0 3
+lw $t4 $t0 4
+lw $t5 $t0 5
+lw $t6 $t0 6
+lw $t7 $t0 7
+lw $t8 $t0 8
+lw $t9 $t0 9
+lw $t10 $t0 10
+lw $t11 $t0 11
+lw $t12 $t0 12
+lw $t13 $t0 13
+lw $t14 $t0 14
+lw $t15 $t0 15
+lw $t16 $t0 16
+lw $t17 $t0 17
+lw $t18 $t0 18
+lw $t19 $t0 19
+lw $t20 $t0 20
+lw $t21 $t0 21
+lw $t22 $t0 22
+lw $t23 $t0 23
+lw $t24 $t0 24
+lw $t25 $t0 25
+lw $t26 $t0 26
+lw $t27 $t0 27
+lw $t28 $t0 28
+lw $t29 $t0 29
+lw $t30 $t0 30
+lw $t31 $t0 31
+changeROM
+addi $t10 $t0 1970
+output $t10
+sw $t1 $t0 1
+sw $t2 $t0 2
+sw $t3 $t0 3
+sw $t4 $t0 4
+sw $t5 $t0 5
+sw $t6 $t0 6
+sw $t7 $t0 7
+sw $t8 $t0 8
+sw $t9 $t0 9
+sw $t10 $t0 10
+sw $t11 $t0 11
+sw $t12 $t0 12
+sw $t13 $t0 13
+sw $t14 $t0 14
+sw $t15 $t0 15
+sw $t16 $t0 16
+sw $t17 $t0 17
+sw $t18 $t0 18
+sw $t19 $t0 19
+sw $t20 $t0 20
+sw $t21 $t0 21
+sw $t22 $t0 22
+sw $t23 $t0 23
+sw $t24 $t0 24
+sw $t25 $t0 25
+sw $t26 $t0 26
+sw $t27 $t0 27
+sw $t28 $t0 28
+sw $t29 $t0 29
+sw $t30 $t0 30
+sw $t31 $t0 31
+addi $t11 $t0 0
+changeOffset $t11
+lw $t1 $t0 1
+lw $t2 $t0 2
+lw $t3 $t0 3
+lw $t4 $t0 4
+lw $t5 $t0 5
+lw $t6 $t0 6
+lw $t7 $t0 7
+lw $t8 $t0 8
+lw $t9 $t0 9
+lw $t10 $t0 10
+lw $t11 $t0 11
+lw $t12 $t0 12
+lw $t13 $t0 13
+lw $t14 $t0 14
+lw $t15 $t0 15
+lw $t16 $t0 16
+lw $t17 $t0 17
+lw $t18 $t0 18
+lw $t19 $t0 19
+lw $t20 $t0 20
+lw $t21 $t0 21
+lw $t22 $t0 22
+lw $t23 $t0 23
+lw $t24 $t0 24
+lw $t25 $t0 25
+lw $t26 $t0 26
+lw $t27 $t0 27
+lw $t28 $t0 28
+lw $t29 $t0 29
+lw $t30 $t0 30
+lw $t31 $t0 31
+lw $t12 $t29 10
+addi $t13 $t0 2
+comp $t14 $t12 $t13
+beq $t14 $t0 L2
+addi $t15 $t0 0
+sw $t15 $t29 10
+j L3
+LAB L2
+lw $t16 $t29 10
+addi $t17 $t0 1
+add $t18 $t16 $t17
+sw $t18 $t29 10
+LAB L3
+j L0
+LAB L1
 halt
