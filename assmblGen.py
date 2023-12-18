@@ -31,6 +31,16 @@ def fixIndex(line):
     usedIndexes = list(set(usedIndexes) - set(set(usedIndexes) - set(tobeUsed)))
 
 def getIndex(reg, indice, indice2):
+    if indice2 == 4:
+        index = int(reg[2:])
+        if index == 0:
+            return reg
+        if index < 29:
+            return reg
+        for num in range(1, 28):
+            if str(num) not in usedIndexes:
+                usedIndexes.append(str(num))
+                return "$t"+str(num)
     if "$t" in commands[indice][indice2]:
         index = int(reg[2:])
         if index == 0:
@@ -57,7 +67,9 @@ assembly = open("test.asm", 'w')
 scope = " "
 Callflag = 0
 jump = False
+
 for i, command in enumerate(commands):
+    #print(commands[i])
     for reg in command[1:]:
         if "$t" in reg and reg[2:] not in usedIndexes:
             usedIndexes.append(reg[2:])
@@ -88,20 +100,26 @@ for i, command in enumerate(commands):
         case 'ARG':
             assembly.write("addi $t30 $t30 1\n")
         case 'LOADREG':
-            assembly.write("lw "+str(command[1]) + " " +str(command[2])+ " " +str(command[3])+"\n")
+            for i in range(1,32):
+                assembly.write("lw "+"$t"+str(i)+" $t0 "+ str(i)+"\n")
         case 'STOREG':
-            assembly.write("sw "+str(command[1]) + " " +str(command[2])+ " " +str(command[3])+"\n")
+            for i in range(1,32):
+                assembly.write("sw "+"$t"+str(i)+" $t0 "+ str(i)+"\n")
         case 'LOAD':
             #add caso do vetor
-            #print(command)
             if "(" in command[2]:
                 if "$" in command[2]:
                     regex = re.search(r'\(\$t\d+\)', command[2])
                     reg = getIndex(command[1],i,1)
                     if command[2] not in usedVars:
                         usedVars[command[2]] = reg
-                    assembly.write("add "+regex.group()[1:-1]+" "+regex.group()[1:-1]+" "+"$t29"+"\n")
-                    assembly.write("lw " +reg+ " " + regex.group()[1:-1] + " 0"+"\n")
+                    regtemp = regex.group()[1:-1]
+                    
+                    reg2 = getIndex(regtemp,i,4)
+                    #print(command,regtemp,reg2)
+                    #print(command[1])
+                    assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
+                    assembly.write("lw " +reg+ " " + reg2 + " 0"+"\n")
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])
@@ -133,6 +151,9 @@ for i, command in enumerate(commands):
                 assembly.write("input " +"$t28"+"\n")
             elif command[2] == "output":
                 assembly.write("output " +Params[0]+"\n")
+                Params = []
+            elif command[2] == "ProcessCheck":
+                assembly.write("ProcessCheck " +"$t28"+"\n")
                 Params = []
             elif command[2] == "changeOffset":
                 assembly.write("changeOffset " +Params[0]+" "+Params[1]+"\n")
@@ -192,9 +213,14 @@ for i, command in enumerate(commands):
                     regex = re.search(r'\(\$t\d+\)', command[1])
                     reg = command[2]
 
-                    #print(command[1], regex.group()[1:-1])
-                    assembly.write("add "+regex.group()[1:-1]+" "+regex.group()[1:-1]+" "+"$t29"+"\n")
-                    assembly.write("sw " +reg+ " " + regex.group()[1:-1]+ " 0"+"\n")
+                    # print(command)
+                    regtemp = regex.group()[1:-1]
+                    
+                    reg2 = getIndex(regtemp,i,4)
+                    #print(command,regtemp,reg2)
+                    #print(command[1])
+                    assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
+                    assembly.write("sw " +reg+ " " + reg2+ " 0"+"\n")
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])

@@ -1,6 +1,6 @@
 MLo|Type|Lenght|Name|Scope|LineNumbers
-5|int|0|i|main|144 147 153 154 155 157 157 
-7|void|0|output|global|159 
--1|void|0|main|global|142 
-6|int|0|maior|main|145 146 154 155 159 
-0|int|5|processes|main|143 148 149 150 151 152 154 155 
+5|int|0|i|main|42 45 51 52 53 55 55 
+7|void|0|output|global|57 
+-1|void|0|main|global|40 
+6|int|0|maior|main|43 44 52 53 57 
+0|int|5|processes|main|41 46 47 48 49 50 52 53 

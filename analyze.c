@@ -81,12 +81,13 @@ static void insertNode( TreeNode * t, char ** scope )
           break;
         case CallK:
                 if(!strcmp(t->attr.name, "output") || !strcmp(t->attr.name, "input")
-                || !strcmp(t->attr.name, "lw")
-                || !strcmp(t->attr.name, "sw")
+                || !strcmp(t->attr.name, "LoadRegs")
+                || !strcmp(t->attr.name, "SaveRegs")
                 || !strcmp(t->attr.name, "NextLineTBE")
                 || !strcmp(t->attr.name, "changeOffset")
                 || !strcmp(t->attr.name, "changeROM")
-                || !strcmp(t->attr.name, "setProcessLine")){
+                || !strcmp(t->attr.name, "setProcessLine")
+                || !strcmp(t->attr.name, "ProcessCheck")){
                   if(st_lookup(t->attr.name, *scope, "global") == 0){
                     ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
                     st_insert(t->attr.name, t->lineno, location++, type, "global", "global", t->attr.len);
@@ -158,12 +159,15 @@ static void checkNode(TreeNode * t)
         case AssignK:
           if(t->child[1]->attr.name == "input" 
           || t->child[1]->attr.name == "output" 
-          ||t->child[1]->attr.name == "sw"
-          ||t->child[1]->attr.name == "lw"
+          ||t->child[1]->attr.name == "SaveRegs"
+          ||t->child[1]->attr.name == "LoadRegs"
           ||t->child[1]->attr.name == "NextLineTBE"
           ||t->child[1]->attr.name == "changeOffset"
           ||t->child[1]->attr.name == "changeROM"
-          ||t->child[1]->attr.name == "setProcessLine"){
+          ||t->child[1]->attr.name == "setProcessLine"
+          ||t->child[1]->attr.name == "ProcessCheck"){
+
+            
             break;
           }
           if((st_lookup(t->child[1]->attr.name, "global", "global")) && (st_lookup_type(t->child[1]->attr.name) == VoidK)){

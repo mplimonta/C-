@@ -95,12 +95,12 @@ static void genStmt(TreeNode * tree){
         break;
       }
       case CallK:{
-        if(!strcmp("sw",tree->attr.name)){
-          fprintf(code, "(STOREG, $t%d, $t0, %d)\n", tree->child[0]->attr.val ,tree->child[0]->attr.val);
+        if(!strcmp("SaveRegs",tree->attr.name)){
+          fprintf(code, "(STOREG, -, -, -)\n");
           break;
         }
-        if(!strcmp("lw",tree->attr.name)){
-          fprintf(code, "(LOADREG, $t%d, $t0, %d)\n", tree->child[0]->attr.val ,tree->child[0]->attr.val);
+        if(!strcmp("LoadRegs",tree->attr.name)){
+          fprintf(code, "(LOADREG, -, -, -)\n");
           break;
         }
         if(!strcmp("NextLineTBE",tree->attr.name)){
