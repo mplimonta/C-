@@ -60,6 +60,12 @@ def convert_instruction_to_binary(instruction):
         rs = toBinary(instr_parts[1])
         immediate = format(0, '021b')
         binary_instr = f'{opcode}{rs}{immediate}'
+    elif instr_type in ['changeOffset']:
+        opcode = opcode_table[instr_type]
+        rs = toBinary(instr_parts[1])
+        rt = toBinary(instr_parts[2])
+        immediate = format(0, '016b')
+        binary_instr = f'{opcode}{rs}{rt}{immediate}'
 
     elif instr_type in ['j', 'jal']:
         opcode = opcode_table[instr_type]
@@ -69,7 +75,7 @@ def convert_instruction_to_binary(instruction):
         opcode = opcode_table[instr_type]
         address = "0"*26
         binary_instr = f'{opcode}{address}'
-    elif instr_type in ['input', 'output', 'changeOffset']:
+    elif instr_type in ['input', 'output', 'setProcessLine']:
         opcode = opcode_table[instr_type]
         rs = toBinary(instr_parts[1])
         immediate = format(0, '021b')

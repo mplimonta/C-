@@ -74,6 +74,7 @@ for i, command in enumerate(commands):
                 assembly.write("addi $t30 $t30 1\n")
                 assembly.write("sw $t31 $t29 1"+"\n")
             else:
+                assembly.write("addi $t30 $t30 32\n")
                 assembly.write("addi $t29 $t30 0\n")
                 
         case 'END':
@@ -99,6 +100,7 @@ for i, command in enumerate(commands):
                     reg = getIndex(command[1],i,1)
                     if command[2] not in usedVars:
                         usedVars[command[2]] = reg
+                    assembly.write("add "+regex.group()[1:-1]+" "+regex.group()[1:-1]+" "+"$t29"+"\n")
                     assembly.write("lw " +reg+ " " + regex.group()[1:-1] + " 0"+"\n")
                 else:
                     #actually will never happen :/
@@ -126,18 +128,18 @@ for i, command in enumerate(commands):
             usedVars = {}
 
         case 'CALL':
+            # print(command, Params)
             if command[2] == "input":
                 assembly.write("input " +"$t28"+"\n")
             elif command[2] == "output":
                 assembly.write("output " +Params[0]+"\n")
                 Params = []
             elif command[2] == "changeOffset":
-                assembly.write("changeOffset " +Params[0]+"\n")
+                assembly.write("changeOffset " +Params[0]+" "+Params[1]+"\n")
                 Params = []
             elif command[2] == "sw":
                 assembly.write("sw " +  Params[0]+" "+ "$t0"+" "+ command[3]+"\n")
             elif command[2] == "lw":
-                #print(command, Params)
                 assembly.write("lw " + "$t1 $t0 "+command[3]+ "\n")
             elif command[2] == "NextLineTBE":
                 assembly.write("NextLineTBE"+"\n")
@@ -145,6 +147,7 @@ for i, command in enumerate(commands):
                 assembly.write("changeROM"+"\n")
             elif command[2] == "setProcessLine":
                 assembly.write("setProcessLine "+Params[0]+"\n")
+                Params = []
             else:
                 regs = set(list(usedVars.values())+Params)
                 backup = regs.copy()
@@ -190,6 +193,7 @@ for i, command in enumerate(commands):
                     reg = command[2]
 
                     #print(command[1], regex.group()[1:-1])
+                    assembly.write("add "+regex.group()[1:-1]+" "+regex.group()[1:-1]+" "+"$t29"+"\n")
                     assembly.write("sw " +reg+ " " + regex.group()[1:-1]+ " 0"+"\n")
                 else:
                     #actually will never happen :/

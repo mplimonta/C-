@@ -112,10 +112,11 @@ static void genStmt(TreeNode * tree){
           break;
         }
         
+        
         cGen(tree->child[0], CallK);
         //fprintf(code, "%s\n", tree->attr.name);
         fprintf(code, "(CALL, $t28, %s, %d)\n", tree->attr.name, paramCounter(tree));
-        if(strcmp("output",tree->attr.name) && strcmp("changeOffset",tree->attr.name)&& strcmp("setProcessLine",tree->attr.name)){
+        if(strcmp("output",tree->attr.name) && strcmp("changeOffset",tree->attr.name) && strcmp("setProcessLine",tree->attr.name)){
           fprintf(code, "(SOM, $t%d, $t0, $t28)\n", indexCounter());
         } 
           

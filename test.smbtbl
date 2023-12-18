@@ -1,12 +1,6 @@
 MLo|Type|Lenght|Name|Scope|LineNumbers
-11|int|0|program|main|6 
-10|int|0|i|main|5 7 41 138 139 141 141 
-17|void|0|output|global|74 
-15|int|0|lw|global|42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 
-12|int|0|sw|global|9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 
--1|void|0|main|global|1 
-16|int|0|changeROM|global|73 
-13|int|0|NextLineTBE|global|40 
-5|int|5|states|main|4 
-14|int|0|changeOffset|global|41 106 
-0|int|5|processes|main|3 
+5|int|0|i|main|144 147 153 154 155 157 157 
+7|void|0|output|global|159 
+-1|void|0|main|global|142 
+6|int|0|maior|main|145 146 154 155 159 
+0|int|5|processes|main|143 148 149 150 151 152 154 155 
