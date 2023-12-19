@@ -1,17 +1,28 @@
-/*
 void main(void) {
     int i;
-    int process[1];
-    int states[1];
+    int process[4];
+    int states[4];
     int count;
-    changeOffset(288,0);
-    setProcessLine(218*4);
+    changeOffset(288,283*4);
+    setProcessLine(283*4);
+    changeOffset(576,348*4);
+    setProcessLine(348*4);
+    changeOffset(864,413*4);
+    setProcessLine(413*4);
+    changeOffset(1152,432*4);
+    setProcessLine(432*4);
     changeOffset(0,0);
-    process[0] = 218 * 4;
+    process[0] = 283 * 4;
+    process[1] = 348 * 4;
+    process[2] = 413 * 4;
+    process[3] = 432 * 4;
     i = 0;
-    count = 0;
     states[0] = 1;
-    while(count < 3){
+    states[1] = 1;
+    states[2] = 1;
+    states[3] = 1;
+    count = 0;
+    while(count < 5){
         if(states[i] != 0){
             count = 0;
             SaveRegs();
@@ -26,28 +37,30 @@ void main(void) {
         }else{
             count = count + 1;
         }
-        if(i == 1){
+        if(i == 0){
             i = 0;
         }else{
-            i = i + 0;
+            i = i + 1;
         }
     }
     output(states[0]);
     count = 25252;
     output(count);
 }
-*/
+
+/* MAIOR */
+/*
 void main(void) {
-    int processes[5];
     int i;
+    int processes[5];
     int maior;
     maior = 0;
     i = 0;
-    processes[0] = 35;
-    processes[1] = 105;
-    processes[2] = 1984;
-    processes[3] = 2;
-    processes[4] = 1;
+    processes[0] = input();
+    processes[1] = input();
+    processes[2] = input();
+    processes[3] = input();
+    processes[4] = input();
     while(i < 5){
         if(processes[i] > maior){
             maior = processes[i];
@@ -56,3 +69,55 @@ void main(void) {
     }
     output(maior);
 }
+*/
+/* FIBONACCI */
+/*
+int fib(int n)
+{
+    int a; int b; int c; int i;
+    a = 0;
+    b = 1;
+    i = 2; 
+    if (n == 0) {
+        return a;
+    } while (i <= n) {
+        c = a + b;
+        a = b;
+        b = c;
+        i = i + 1;
+    }
+    return b;
+}
+void main(void)
+{
+    int n;
+    n = input();
+    output(fib(n));
+}
+*/
+
+/* SOMA */
+/*
+void main(void)
+{	int x; int y; int z;
+	x = input();
+    y = input();
+    z = x + y;
+	output(z);
+}*/
+
+
+/* Fatorial */
+/*
+void main(void) {
+    int n;
+    int resultado;
+    resultado = 1;
+    n = input();
+    while(n != 0){
+        resultado = resultado * n;
+        n = n - 1;
+    }
+    output(resultado);
+}
+*/

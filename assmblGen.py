@@ -18,21 +18,33 @@ for i, command in enumerate(commands):
             for j in range(1,4):
                 if comando[j] == aux:
                     comando[j] = "$t28"
-
+verbose = 0
 usedIndexes = []
 def fixIndex(line):
+    global verbose
     global usedIndexes
     tobeUsed = []
     for command in commands[line + 1:]:
         for i in range(1,len(command)):
             if "$t" in command[i]:
-                if command[i][2:] in usedIndexes and command[i][2:] not in tobeUsed:
+                if  ")" in command[i]:
+                    rexesaux = re.search(r'\(\$t\d+\)', command[i][2:])
+                    regaux = rexesaux.group()[1:-1]
+                    #print(regaux[2:], regaux, command[i])
+                    if regaux[2:] in usedIndexes and regaux[2:] not in tobeUsed:
+                        print(regaux[2:])
+                        tobeUsed.append(regaux[2:])
+                elif command[i][2:] in usedIndexes and command[i][2:] not in tobeUsed:
                     tobeUsed.append(command[i][2:])
     usedIndexes = list(set(usedIndexes) - set(set(usedIndexes) - set(tobeUsed)))
+    #print(tobeUsed, line)
 
 def getIndex(reg, indice, indice2):
     if indice2 == 4:
-        index = int(reg[2:])
+        if reg[2:] == 'SP':
+            return "$t29"
+        else:
+            index = int(reg[2:])
         if index == 0:
             return reg
         if index < 29:
@@ -42,7 +54,10 @@ def getIndex(reg, indice, indice2):
                 usedIndexes.append(str(num))
                 return "$t"+str(num)
     if "$t" in commands[indice][indice2]:
-        index = int(reg[2:])
+        if reg[2:] == 'SP':
+            return "$t29"
+        else:
+            index = int(reg[2:])
         if index == 0:
             return commands[indice][indice2]
         if index < 29:
@@ -67,12 +82,20 @@ assembly = open("test.asm", 'w')
 scope = " "
 Callflag = 0
 jump = False
+vetload = 0
 
 for i, command in enumerate(commands):
     #print(commands[i])
     for reg in command[1:]:
-        if "$t" in reg and reg[2:] not in usedIndexes:
+        if  ")" in reg and "$t" in reg:
+            rexesaux = re.search(r'\(\$t\d+\)', reg)
+            regaux = rexesaux.group()[1:-1]
+            if regaux[2:] not in usedIndexes:
+                #print(regaux[2:])
+                usedIndexes.append(regaux[2:])
+        elif "$t" in reg and reg[2:] not in usedIndexes:
             usedIndexes.append(reg[2:])
+    #print(usedIndexes)
     #print(command)
     match command[0]:
         case 'FUNC':
@@ -114,12 +137,13 @@ for i, command in enumerate(commands):
                     if command[2] not in usedVars:
                         usedVars[command[2]] = reg
                     regtemp = regex.group()[1:-1]
-                    
+                    # print(command,regtemp)
+                    # print(usedIndexes)
                     reg2 = getIndex(regtemp,i,4)
-                    #print(command,regtemp,reg2)
-                    #print(command[1])
-                    assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
-                    assembly.write("lw " +reg+ " " + reg2 + " 0"+"\n")
+                    #print(usedIndexes)
+                    #assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
+                    assembly.write("lw " +reg2+ " " + reg+ " 0"+"\n")
+                    vetload = 1
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])
@@ -173,6 +197,7 @@ for i, command in enumerate(commands):
                 regs = set(list(usedVars.values())+Params)
                 backup = regs.copy()
                 for r in regs:
+                    print(len(regs))
                     assembly.write("sw "+r+" "+"$t30 "+ "0"+"\n")
                     assembly.write("addi " +"$t30 " +"$t30 "+ "1"+"\n")
 
@@ -219,19 +244,36 @@ for i, command in enumerate(commands):
                     reg2 = getIndex(regtemp,i,4)
                     #print(command,regtemp,reg2)
                     #print(command[1])
-                    assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
+                    #assembly.write("add "+reg2+" "+reg2+" "+"$t29"+"\n")
                     assembly.write("sw " +reg+ " " + reg2+ " 0"+"\n")
                 else:
                     #actually will never happen :/
                     regex = re.search(r'\((\d+)\)', command[1])
                     assembly.write("addi $t30 $t30 "+regex.group()[1:-1]+"\n")
             else:
-                assembly.write("sw "+getIndex(command[2],i,2) +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
+                if vetload:
+                    assembly.write("sw "+reg2 +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
+                    vetload = 0
+                else:
+                    assembly.write("sw "+getIndex(command[2],i,2) +" $t29 "+str(tbl[(tbl['Name'] == command[1]) & (tbl['Scope'] == scope)].index[0])+"\n")
         case 'PARAM':
-            Params.append(getIndex(command[1],i,1))
+            #print(command,regtemp,reg,reg2)
+            # if vetload == 1:
+            #     Params.append(reg2)
+            # else:
+            print(command, Params)
+            reg = getIndex(command[1],i,1)
+            Params.append(reg)
         case 'SOM':
             assembly.write("add "+getIndex(command[1],i,1)+" "+getIndex(command[2],i,2)+" "+getIndex(command[3],i,3)+"\n")
         case 'ADD':
+            # if(command[1] == command[2]):
+            #     verbose = 1
+            #     reg = getIndex(command[1],i,1)
+            #     reg2 = getIndex(command[3],i,3)
+            #     assembly.write("add "+reg+" "+reg+" "+reg2+"\n")
+            #     #print("add "+reg+" "+reg+" "+reg2+"\n")
+            # else:
             assembly.write("add "+getIndex(command[1],i,1)+" "+getIndex(command[2],i,2)+" "+getIndex(command[3],i,3)+"\n")
         case 'SUB':
             assembly.write("sub "+getIndex(command[1],i,1)+" "+getIndex(command[2],i,2)+" "+getIndex(command[3],i,3)+"\n")

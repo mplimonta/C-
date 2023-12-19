@@ -14,7 +14,7 @@ static BucketList *hashTable;
 
 static void cGen (TreeNode * tree, StmtKind type);
 
-int count = 0;
+int count = 32;
 int label = 0;
 
 static void printOp( TokenType token, const char* tokenString )
@@ -139,7 +139,9 @@ static void genStmt(TreeNode * tree){
         if(tree->child[0]->kind.exp == VetK) cGen(tree->child[0]->child[0], -1);
         reg1 = count;
         if(tree->child[0]->kind.exp == VetK){
-          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg1, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
+          //printf("reg1 = %d reg1 = %d count = %d \n",reg1,reg2,count);
+          fprintf(code, "(ADD, $t%d, $t%d, $tSP)\n", indexCounter(), reg1);
+          fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), count, ret_Mloc(tree->child[0]->attr.name, tree->child[0]->attr.scope));
           fprintf(code, "(STORE, %s($t%d)", tree->child[0]->attr.name, count);
         }
         else{
@@ -182,7 +184,9 @@ static void genExp( TreeNode * tree){
       reg1 = count;
       cGen(tree->child[0], -1);
       reg2 = count;
-      fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), reg2, ret_Mloc(tree->attr.name, tree->attr.scope));
+      printf("reg1 = %d reg2 = %d count = %d \n",reg1,reg2,count);
+      fprintf(code, "(ADD, $t%d, $t%d, $tSP)\n", indexCounter(), reg2);
+      fprintf(code, "(ADDI, $t%d, $t%d, %d)\n", indexCounter(), count, ret_Mloc(tree->attr.name, tree->attr.scope));
       fprintf(code, "(LOAD, $t%d, %s($t%d), -)\n", indexCounter(), tree->attr.name, count);
       break;
 
