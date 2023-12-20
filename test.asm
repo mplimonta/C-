@@ -6,67 +6,220 @@ addi $t30 $t30 1
 addi $t30 $t30 4
 addi $t30 $t30 4
 addi $t30 $t30 1
+addi $t30 $t30 1
+LAB L0
+addi $t1 $t0 1
+addi $t2 $t0 1
+comp $t3 $t1 $t2
+beq $t3 $t0 L1
+input $t28
+add $t1 $t0 $t28
+sw $t1 $t29 10
+lw $t1 $t29 10
+addi $t2 $t0 0
+comp $t3 $t1 $t2
+beq $t3 $t0 L2
+addi $t1 $t0 0
+setQuantum $t1
+j L3
+LAB L2
+addi $t1 $t0 10000
+setQuantum $t1
+LAB L3
 addi $t1 $t0 288
-addi $t1 $t0 283
+addi $t1 $t0 427
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 changeOffset $t1 $t3
-addi $t1 $t0 283
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-setProcessLine $t3
-addi $t1 $t0 576
-addi $t1 $t0 349
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-changeOffset $t1 $t3
-addi $t1 $t0 349
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-setProcessLine $t3
-addi $t1 $t0 864
-addi $t1 $t0 414
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-changeOffset $t1 $t3
-addi $t1 $t0 414
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-setProcessLine $t3
-addi $t1 $t0 1152
-addi $t1 $t0 483
-addi $t2 $t0 4
-mult $t3 $t1 $t2
-changeOffset $t1 $t3
-addi $t1 $t0 483
+sw $t0 $t0 1
+sw $t0 $t0 2
+sw $t0 $t0 3
+sw $t0 $t0 4
+sw $t0 $t0 5
+sw $t0 $t0 6
+sw $t0 $t0 7
+sw $t0 $t0 8
+sw $t0 $t0 9
+sw $t0 $t0 10
+sw $t0 $t0 11
+sw $t0 $t0 12
+sw $t0 $t0 13
+sw $t0 $t0 14
+sw $t0 $t0 15
+sw $t0 $t0 16
+sw $t0 $t0 17
+sw $t0 $t0 18
+sw $t0 $t0 19
+sw $t0 $t0 20
+sw $t0 $t0 21
+sw $t0 $t0 22
+sw $t0 $t0 23
+sw $t0 $t0 24
+sw $t0 $t0 25
+sw $t0 $t0 26
+sw $t0 $t0 27
+sw $t0 $t0 28
+sw $t0 $t0 29
+sw $t0 $t0 30
+sw $t0 $t0 31
+addi $t1 $t0 427
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 setProcessLine $t3
 addi $t1 $t0 0
 addi $t1 $t0 0
 changeOffset $t1 $t1
-addi $t1 $t0 283
+addi $t1 $t0 576
+addi $t1 $t0 492
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+changeOffset $t1 $t3
+sw $t0 $t0 1
+sw $t0 $t0 2
+sw $t0 $t0 3
+sw $t0 $t0 4
+sw $t0 $t0 5
+sw $t0 $t0 6
+sw $t0 $t0 7
+sw $t0 $t0 8
+sw $t0 $t0 9
+sw $t0 $t0 10
+sw $t0 $t0 11
+sw $t0 $t0 12
+sw $t0 $t0 13
+sw $t0 $t0 14
+sw $t0 $t0 15
+sw $t0 $t0 16
+sw $t0 $t0 17
+sw $t0 $t0 18
+sw $t0 $t0 19
+sw $t0 $t0 20
+sw $t0 $t0 21
+sw $t0 $t0 22
+sw $t0 $t0 23
+sw $t0 $t0 24
+sw $t0 $t0 25
+sw $t0 $t0 26
+sw $t0 $t0 27
+sw $t0 $t0 28
+sw $t0 $t0 29
+sw $t0 $t0 30
+sw $t0 $t0 31
+addi $t1 $t0 492
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+setProcessLine $t3
+addi $t1 $t0 0
+addi $t1 $t0 0
+changeOffset $t1 $t1
+addi $t1 $t0 864
+addi $t1 $t0 557
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+changeOffset $t1 $t3
+sw $t0 $t0 1
+sw $t0 $t0 2
+sw $t0 $t0 3
+sw $t0 $t0 4
+sw $t0 $t0 5
+sw $t0 $t0 6
+sw $t0 $t0 7
+sw $t0 $t0 8
+sw $t0 $t0 9
+sw $t0 $t0 10
+sw $t0 $t0 11
+sw $t0 $t0 12
+sw $t0 $t0 13
+sw $t0 $t0 14
+sw $t0 $t0 15
+sw $t0 $t0 16
+sw $t0 $t0 17
+sw $t0 $t0 18
+sw $t0 $t0 19
+sw $t0 $t0 20
+sw $t0 $t0 21
+sw $t0 $t0 22
+sw $t0 $t0 23
+sw $t0 $t0 24
+sw $t0 $t0 25
+sw $t0 $t0 26
+sw $t0 $t0 27
+sw $t0 $t0 28
+sw $t0 $t0 29
+sw $t0 $t0 30
+sw $t0 $t0 31
+addi $t1 $t0 557
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+setProcessLine $t3
+addi $t1 $t0 0
+addi $t1 $t0 0
+changeOffset $t1 $t1
+addi $t1 $t0 1152
+addi $t1 $t0 576
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+changeOffset $t1 $t3
+sw $t0 $t0 1
+sw $t0 $t0 2
+sw $t0 $t0 3
+sw $t0 $t0 4
+sw $t0 $t0 5
+sw $t0 $t0 6
+sw $t0 $t0 7
+sw $t0 $t0 8
+sw $t0 $t0 9
+sw $t0 $t0 10
+sw $t0 $t0 11
+sw $t0 $t0 12
+sw $t0 $t0 13
+sw $t0 $t0 14
+sw $t0 $t0 15
+sw $t0 $t0 16
+sw $t0 $t0 17
+sw $t0 $t0 18
+sw $t0 $t0 19
+sw $t0 $t0 20
+sw $t0 $t0 21
+sw $t0 $t0 22
+sw $t0 $t0 23
+sw $t0 $t0 24
+sw $t0 $t0 25
+sw $t0 $t0 26
+sw $t0 $t0 27
+sw $t0 $t0 28
+sw $t0 $t0 29
+sw $t0 $t0 30
+sw $t0 $t0 31
+addi $t1 $t0 576
+addi $t2 $t0 4
+mult $t3 $t1 $t2
+setProcessLine $t3
+addi $t1 $t0 0
+addi $t1 $t0 0
+changeOffset $t1 $t1
+addi $t1 $t0 427
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 addi $t1 $t0 0
 add $t2 $t1 $t29
 addi $t1 $t2 1
 sw $t3 $t1 0
-addi $t1 $t0 349
+addi $t1 $t0 492
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 addi $t1 $t0 1
 add $t2 $t1 $t29
 addi $t1 $t2 1
 sw $t3 $t1 0
-addi $t1 $t0 414
+addi $t1 $t0 557
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 addi $t1 $t0 2
 add $t2 $t1 $t29
 addi $t1 $t2 1
 sw $t3 $t1 0
-addi $t1 $t0 483
+addi $t1 $t0 576
 addi $t2 $t0 4
 mult $t3 $t1 $t2
 addi $t1 $t0 3
@@ -97,18 +250,18 @@ addi $t2 $t3 5
 sw $t1 $t2 0
 addi $t1 $t0 0
 sw $t1 $t29 9
-LAB L0
+LAB L4
 lw $t1 $t29 9
 addi $t2 $t0 5
 lt $t3 $t1 $t2
-beq $t3 $t0 L1
+beq $t3 $t0 L5
 lw $t1 $t29 0
 add $t2 $t1 $t29
 addi $t1 $t2 5
 lw $t2 $t1 0
 addi $t2 $t0 0
 neq $t3 $t1 $t2
-beq $t3 $t0 L2
+beq $t3 $t0 L6
 addi $t1 $t0 0
 sw $t2 $t29 9
 sw $t1 $t0 1
@@ -256,35 +409,30 @@ lw $t2 $t29 0
 add $t3 $t2 $t29
 addi $t2 $t3 5
 sw $t1 $t2 0
-j L3
-LAB L2
+j L7
+LAB L6
 lw $t1 $t29 9
 addi $t2 $t0 1
 add $t3 $t1 $t2
 sw $t2 $t29 9
-LAB L3
+LAB L7
 lw $t1 $t29 0
 addi $t2 $t0 3
 comp $t3 $t1 $t2
-beq $t3 $t0 L4
+beq $t3 $t0 L8
 addi $t1 $t0 0
 sw $t1 $t29 0
-j L5
-LAB L4
+j L9
+LAB L8
 lw $t1 $t29 0
 addi $t2 $t0 1
 add $t3 $t1 $t2
 sw $t3 $t29 0
+LAB L9
+j L4
 LAB L5
+addi $t1 $t0 25252
+output $t1
 j L0
 LAB L1
-addi $t1 $t0 0
-add $t2 $t1 $t29
-addi $t1 $t2 5
-lw $t2 $t1 0
-output $t1
-addi $t1 $t0 25252
-sw $t2 $t29 9
-lw $t1 $t29 9
-output $t1
 halt

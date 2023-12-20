@@ -128,6 +128,9 @@ for i, command in enumerate(commands):
         case 'STOREG':
             for i in range(1,32):
                 assembly.write("sw "+"$t"+str(i)+" $t0 "+ str(i)+"\n")
+        case 'CLEARMEM':
+            for i in range(1,32):
+                assembly.write("sw "+"$t0 "+"$t0 "+ str(i)+"\n")
         case 'LOAD':
             #add caso do vetor
             if "(" in command[2]:
@@ -181,6 +184,9 @@ for i, command in enumerate(commands):
                 Params = []
             elif command[2] == "changeOffset":
                 assembly.write("changeOffset " +Params[0]+" "+Params[1]+"\n")
+                Params = []
+            elif command[2] == "setQuantum":
+                assembly.write("setQuantum " +Params[0]+"\n")
                 Params = []
             elif command[2] == "sw":
                 assembly.write("sw " +  Params[0]+" "+ "$t0"+" "+ command[3]+"\n")

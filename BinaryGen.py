@@ -30,6 +30,7 @@ def convert_instruction_to_binary(instruction):
         'changeROM':'010000',
         'setProcessLine': '010001',
         'ProcessCheck': '010010',
+        'setQuantum': '010011',
         'halt': '111111'
     }
     funct_table = {
@@ -76,7 +77,7 @@ def convert_instruction_to_binary(instruction):
         opcode = opcode_table[instr_type]
         address = "0"*26
         binary_instr = f'{opcode}{address}'
-    elif instr_type in ['input', 'output', 'setProcessLine','ProcessCheck']:
+    elif instr_type in ['input', 'output', 'setProcessLine','ProcessCheck','setQuantum']:
         opcode = opcode_table[instr_type]
         rs = toBinary(instr_parts[1])
         immediate = format(0, '021b')

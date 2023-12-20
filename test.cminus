@@ -3,49 +3,63 @@ void main(void) {
     int process[4];
     int states[4];
     int count;
-    changeOffset(288,283*4);
-    setProcessLine(283*4);
-    changeOffset(576,348*4);
-    setProcessLine(348*4);
-    changeOffset(864,413*4);
-    setProcessLine(413*4);
-    changeOffset(1152,432*4);
-    setProcessLine(432*4);
-    changeOffset(0,0);
-    process[0] = 283 * 4;
-    process[1] = 348 * 4;
-    process[2] = 413 * 4;
-    process[3] = 432 * 4;
-    i = 0;
-    states[0] = 1;
-    states[1] = 1;
-    states[2] = 1;
-    states[3] = 1;
-    count = 0;
-    while(count < 5){
-        if(states[i] != 0){
-            count = 0;
-            SaveRegs();
-            changeOffset(288 * (i+1), process[i]);
-            LoadRegs();
-            changeROM();
-            NextLineTBE();
-            SaveRegs();
-            changeOffset(0,0);
-            LoadRegs();
-            states[i] = ProcessCheck();
+    int resposta;
+    while(1 == 1){
+        resposta = input();
+        if(resposta == 0){
+            setQuantum(10000);
         }else{
-            count = count + 1;
+            setQuantum(0);
         }
-        if(i == 0){
-            i = 0;
-        }else{
-            i = i + 1;
+        changeOffset(288,427*4);
+        clearMemory();
+        setProcessLine(427*4);
+        changeOffset(0,0);
+        changeOffset(576,492*4);
+        clearMemory();
+        setProcessLine(492*4);
+        changeOffset(0,0);
+        changeOffset(864,557*4);
+        clearMemory();
+        setProcessLine(557*4);
+        changeOffset(0,0);
+        changeOffset(1152,576*4);
+        clearMemory();
+        setProcessLine(576*4);
+        changeOffset(0,0);
+        process[0] = 427 * 4;
+        process[1] = 492 * 4;
+        process[2] = 557 * 4;
+        process[3] = 576 * 4;
+        i = 0;
+        states[0] = 1;
+        states[1] = 1;
+        states[2] = 1;
+        states[3] = 1;
+        count = 0;
+        while(count < 5){
+            if(states[i] != 0){
+                count = 0;
+                SaveRegs();
+                changeOffset(288 * (i+1), process[i]);
+                LoadRegs();
+                changeROM();
+                NextLineTBE();
+                SaveRegs();
+                changeOffset(0,0);
+                LoadRegs();
+                states[i] = ProcessCheck();
+            }else{
+                count = count + 1;
+            }
+            if(i == 3){
+                i = 0;
+            }else{
+                i = i + 1;
+            }
         }
+        output(25252);
     }
-    output(states[0]);
-    count = 25252;
-    output(count);
 }
 
 /* MAIOR */

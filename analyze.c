@@ -87,7 +87,9 @@ static void insertNode( TreeNode * t, char ** scope )
                 || !strcmp(t->attr.name, "changeOffset")
                 || !strcmp(t->attr.name, "changeROM")
                 || !strcmp(t->attr.name, "setProcessLine")
-                || !strcmp(t->attr.name, "ProcessCheck")){
+                || !strcmp(t->attr.name, "ProcessCheck")
+                || !strcmp(t->attr.name, "clearMemory")
+                || !strcmp(t->attr.name, "setQuantum")){
                   if(st_lookup(t->attr.name, *scope, "global") == 0){
                     ExpType type = (!strcmp(t->attr.name, "output"))? VoidK:IntegerK;
                     st_insert(t->attr.name, t->lineno, location++, type, "global", "global", t->attr.len);
@@ -165,7 +167,9 @@ static void checkNode(TreeNode * t)
           ||t->child[1]->attr.name == "changeOffset"
           ||t->child[1]->attr.name == "changeROM"
           ||t->child[1]->attr.name == "setProcessLine"
-          ||t->child[1]->attr.name == "ProcessCheck"){
+          ||t->child[1]->attr.name == "ProcessCheck"
+          ||t->child[1]->attr.name == "clearMemory"
+          ||t->child[1]->attr.name == "setQuantum"){
 
             
             break;
